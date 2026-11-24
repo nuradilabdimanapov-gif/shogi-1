@@ -1,0 +1,16 @@
+# OS and Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs and Python cache
+*.log
+server.log
+__pycache__/
+*.py[cod]
+
+# Local session data
+accounts.json

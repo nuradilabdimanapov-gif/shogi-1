@@ -1,0 +1,209 @@
+/**
+ * Shogi Web - Piece Geometry, Inscriptions & Visual Styling
+ */
+
+/* The Authentic Japanese Pentagonal Wedge Piece */
+.shogi-piece {
+  position: relative;
+  width: 48px;
+  height: 52px;
+  background: var(--piece-bg);
+  /* Pentagonal wedge silhouette: narrower pointed top, wider base */
+  clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  -webkit-clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  z-index: 5;
+}
+
+/* Wood grain texture effect on pieces */
+.shogi-piece::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(170deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%);
+  pointer-events: none;
+}
+
+/* Piece Orientation */
+/* Sente pieces point upwards (facing Gote) */
+.shogi-piece.sente {
+  transform: rotate(0deg);
+}
+
+/* Gote pieces point downwards (facing Sente) */
+.shogi-piece.gote {
+  transform: rotate(180deg);
+}
+
+/* When the whole board view is flipped: */
+.shogi-piece.sente.view-flipped {
+  transform: rotate(180deg);
+}
+
+.shogi-piece.gote.view-flipped {
+  transform: rotate(0deg);
+}
+
+/* Hover and active states */
+.shogi-piece:hover {
+  filter: brightness(1.08);
+}
+
+/* In-Hand Komadai piece size */
+.komadai-stand .shogi-piece {
+  width: 40px;
+  height: 44px;
+}
+
+/* Piece Inscription Typography */
+.piece-text {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  color: var(--piece-text);
+  font-size: 1.15rem;
+  line-height: 1.05;
+  text-align: center;
+  white-space: pre-line;
+  letter-spacing: -0.05em;
+  padding-top: 6px;
+  pointer-events: none;
+}
+
+/* Traditional 2-Kanji stacking */
+.piece-text:empty {
+  display: none;
+}
+
+/* Promoted pieces use lacquer vermilion/red text */
+.shogi-piece.promoted .piece-text {
+  color: var(--piece-promoted);
+}
+
+/* Western piece notation styling */
+.western-sym {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.western-name {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+/* Beginner Movement Guide Dots */
+.guide-dots-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.guide-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Guide dot positions around the piece */
+/* [0, -1] Forward */
+.dot-dx0-dy-1 {
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* [1, -1] Forward-Right */
+.dot-dx1-dy-1 {
+  top: 14px;
+  right: 5px;
+}
+
+/* [1, 0] Right */
+.dot-dx1-dy0 {
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+}
+
+/* [1, 1] Back-Right */
+.dot-dx1-dy1 {
+  bottom: 5px;
+  right: 8px;
+}
+
+/* [0, 1] Back */
+.dot-dx0-dy1 {
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* [-1, 1] Back-Left */
+.dot-dx-1-dy1 {
+  bottom: 5px;
+  left: 8px;
+}
+
+/* [-1, 0] Left */
+.dot-dx-1-dy0 {
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+
+/* [-1, -1] Forward-Left */
+.dot-dx-1-dy-1 {
+  top: 14px;
+  left: 5px;
+}
+
+/* Knight jumps */
+.dot-dx-1-dy-2 {
+  top: 4px;
+  left: 10px;
+  background-color: #f59e0b;
+}
+
+.dot-dx1-dy-2 {
+  top: 4px;
+  right: 10px;
+  background-color: #f59e0b;
+}
+
+/* Responsive pieces for small screens */
+@media (max-width: 768px) {
+  .shogi-piece {
+    width: 32px;
+    height: 35px;
+  }
+  .piece-text {
+    font-size: 0.85rem;
+    padding-top: 3px;
+  }
+  .western-sym {
+    font-size: 0.8rem;
+  }
+  .western-name {
+    display: none;
+  }
+  .guide-dot {
+    width: 4px;
+    height: 4px;
+  }
+}

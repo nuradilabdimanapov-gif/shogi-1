@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shogi Web - Play Japanese Chess (将棋)</title>
+  <meta name="description" content="Play traditional Japanese chess (Shogi) online against intelligent AI or friends, solve Tsumeshogi mating puzzles, and learn complete rules.">
+  
+  <!-- Google Fonts for authentic typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Serif+JP:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/pieces.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body class="theme-kaya">
+  <div class="app-container">
+    <!-- Header / Navbar -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-crest">将</div>
+        <div class="brand-text">
+          <h1>SHOGI WEB <span class="japanese-title">将棋</span></h1>
+          <p class="tagline">The Art & Strategy of Japanese Chess</p>
+        </div>
+      </div>
+
+      <!-- Mode Tabs -->
+      <nav class="nav-tabs">
+        <button class="nav-tab-btn active" data-mode="ai">
+          <span class="tab-icon">🤖</span>
+          <span class="tab-label">Play vs AI</span>
+        </button>
+        <button class="nav-tab-btn" data-mode="pvp">
+          <span class="tab-icon">👥</span>
+          <span class="tab-label">Pass & Play</span>
+        </button>
+        <button class="nav-tab-btn" data-mode="puzzle">
+          <span class="tab-icon">🧩</span>
+          <span class="tab-label">Tsumeshogi</span>
+        </button>
+        <button class="nav-tab-btn" data-mode="tutorial">
+          <span class="tab-icon">📖</span>
+          <span class="tab-label">Academy</span>
+        </button>
+      </nav>
+
+      <!-- Quick Action Controls -->
+      <div class="header-controls">
+        <button id="home-nav-btn" class="btn btn-secondary btn-sm" title="Home / ホーム">🏠 <span data-i18n="btnHome">Home</span></button>
+        <button id="lang-toggle-btn" class="btn btn-secondary btn-sm" title="Change Language / 言語切替">🌐 EN / 日本語</button>
+        <button id="bgm-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Japanese Traditional Music (BGM)">🎵 BGM</button>
+        <button id="mute-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Sound Effects">🔊 SFX</button>
+        <button id="flip-board-btn" class="btn btn-secondary btn-sm" title="Flip Board Perspective">🔄 Flip</button>
+        <button id="settings-open-btn" class="btn btn-secondary btn-sm" title="Settings / 設定">⚙️ Settings</button>
+        <button id="account-open-btn" class="btn btn-primary btn-sm" title="Account & Rating / アカウント">👤 <span id="header-user-label">Account</span></button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- 1. LANDING / MAIN HOME PAGE -->
+      <section id="landing-view" class="landing-view">
+        <div class="landing-hero-card">
+          <div class="hero-watermark">将</div>
+          <div class="hero-badge" data-i18n="heroBadge">Traditional Japanese Chess</div>
+          <h1 class="hero-main-title">
+            <span class="hero-kanji">将棋</span>
+            <span class="hero-en" data-i18n="heroTitle">MASTER THE ART OF SHOGI</span>
+          </h1>
+          <p class="hero-tagline" data-i18n="heroTagline">
+            Drop captured pieces back into battle. Outsmart your opponent in the ultimate strategy game.
+          </p>
+
+          <!-- User Quick Status -->
+          <div id="landing-user-badge" class="landing-user-badge">
+            <div class="user-badge-left">
+              <span class="user-badge-avatar">👤</span>
+              <span id="landing-user-text" class="user-badge-text">Welcome, Guest! Create an account to track ratings.</span>
+            </div>
+            <button id="landing-account-btn" class="btn btn-xs btn-outline">Profile / Sign In</button>
+          </div>
+
+          <!-- Major "START GAME" Hero Call-To-Action -->
+          <div class="hero-cta-wrapper">
+            <button id="hero-start-btn" class="btn-hero-primary">
+              <span class="btn-icon">⚔️</span>
+              <span class="btn-primary-text" data-i18n="heroStartGame">Start Game</span>
+              <span class="btn-subtext">Play vs AI or Person (対局開始)</span>
+            </button>
+          </div>
+
+          <!-- Secondary Mode Navigation -->
+          <div class="hero-subnav">
+            <button id="hero-puzzles-btn" class="btn btn-secondary btn-md">
+              <span>🧩</span> <span data-i18n="heroPuzzles">Tsumeshogi Puzzles</span>
+            </button>
+            <button id="hero-academy-btn" class="btn btn-secondary btn-md">
+              <span>📖</span> <span data-i18n="heroAcademy">Learn Shogi Rules</span>
+            </button>
+            <button id="hero-settings-btn" class="btn btn-secondary btn-md">
+              <span>⚙️</span> <span data-i18n="settingsTitle">Game Settings</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Highlights / Features Showcase Grid -->
+        <div class="landing-features">
+          <h3 class="features-heading" data-i18n="heroFeaturesTitle">Why Play Shogi Web</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <h4 data-i18n="featAiTitle">Intelligent AI Bots</h4>
+              <p data-i18n="featAiDesc">Challenge engine levels from Novice to Master with realistic styles.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h4 data-i18n="featPvpTitle">Play With People</h4>
+              <p data-i18n="featPvpDesc">Invite a friend with an instant link or battle random online opponents.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📜</div>
+              <h4 data-i18n="historyReplayTitle">Move History & Replay</h4>
+              <p>Step through every move with standard Japanese notation (☗7六歩) to analyze games.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⭐</div>
+              <h4 data-i18n="featRatingTitle">Official Dan / Kyu Ranks</h4>
+              <p data-i18n="featRatingDesc">Climb the ladder from 15-Kyu apprentice to 5-Dan Grandmaster.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎵</div>
+              <h4 data-i18n="featAudioTitle">Traditional Japanese Music</h4>
+              <p data-i18n="featAudioDesc">Procedural Koto & Shakuhachi melodies and crisp board snap effects.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎨</div>
+              <h4>Authentic Aesthetics</h4>
+              <p>Traditional Kaya wood, Zen slate dark, and Sakura cherry blossom board themes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. GAME VIEW (ARENA + SIDEBAR DASHBOARD) -->
+      <div id="game-view" class="game-view hidden">
+        <!-- Game Arena (Board + Komadai Stands) -->
+        <section class="game-arena">
+          <!-- Gote (White / Top) Player Banner & Stand -->
+          <div class="player-panel gote-panel">
+            <div class="player-identity">
+              <div class="player-avatar gote-avatar">☖</div>
+              <div class="player-info">
+                <span class="player-role">Gote (後手 / White)</span>
+                <span id="gote-player-name" class="player-name">AI Opponent</span>
+              </div>
+              <div class="player-clock" id="gote-clock">10:00</div>
+            </div>
+            <div class="komadai-wrapper">
+              <div class="komadai-label">Komadai (Stand)</div>
+              <div id="gote-hand" class="komadai-stand"></div>
+            </div>
+          </div>
+
+          <!-- The Shogi Board Stage -->
+          <div class="board-stage">
+            <!-- AI Thinking Overlay Indicator -->
+            <div id="ai-thinking-indicator" class="ai-thinking-pill">
+              <span class="spinner-dot"></span>
+              <span>AI is contemplating move...</span>
+            </div>
+
+            <div class="board-frame">
+              <!-- 9x9 Shogi Grid Rendered Here -->
+              <div id="shogi-board" class="shogi-board"></div>
+            </div>
+          </div>
+
+          <!-- Sente (Black / Bottom) Player Banner & Stand -->
+          <div class="player-panel sente-panel">
+            <div class="player-identity">
+              <div class="player-avatar sente-avatar">☗</div>
+              <div class="player-info">
+                <span class="player-role">Sente (先手 / Black)</span>
+                <span id="sente-player-name" class="player-name">Player 1</span>
+              </div>
+              <div class="player-clock" id="sente-clock">10:00</div>
+            </div>
+            <div class="komadai-wrapper">
+              <div class="komadai-label">Komadai (Stand)</div>
+              <div id="sente-hand" class="komadai-stand"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Dashboard / Sidebar -->
+        <aside class="sidebar-dashboard">
+          <!-- Game Status Announcement -->
+          <div id="game-status-banner" class="status-card">
+            <div class="status-turn">Loading Shogi Engine...</div>
+          </div>
+
+          <!-- Dynamic Panels Based on Mode -->
+          <!-- 1. Play vs AI Config Panel -->
+          <div id="ai-config-panel" class="config-card">
+            <h3 class="card-title">Match Settings</h3>
+            
+            <div class="form-group">
+              <label for="ai-difficulty-select">AI Difficulty</label>
+              <select id="ai-difficulty-select" class="form-select">
+                <option value="novice">Novice (初級) - Gentle & forgiving</option>
+                <option value="apprentice">Apprentice (中級) - Good for practice</option>
+                <option value="tactician" selected>Tactician (上級) - Sharp & strategic</option>
+                <option value="master">Master (有段者) - Deep calculation</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Play As</label>
+              <div class="side-radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="player-side" value="sente" checked>
+                  <span>☗ Sente (First / Black)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="player-side" value="gote">
+                  <span>☖ Gote (Second / White)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Puzzles Panel -->
+          <div id="puzzle-panel" class="config-card hidden">
+            <div class="puzzle-header">
+              <h3 id="puzzle-title" class="card-title">Tsumeshogi Problem</h3>
+            </div>
+            <p id="puzzle-desc" class="puzzle-description">Find the mating sequence!</p>
+            <div id="puzzle-feedback" class="puzzle-feedback-box"></div>
+            <div class="puzzle-nav-btns">
+              <button id="puzzle-prev-btn" class="btn btn-secondary btn-sm">◀ Prev</button>
+              <button id="puzzle-reset-btn" class="btn btn-secondary btn-sm">↺ Retry</button>
+              <button id="puzzle-next-btn" class="btn btn-secondary btn-sm">Next ▶</button>
+            </div>
+          </div>
+
+          <!-- 3. Academy Tutorial Panel -->
+          <div id="tutorial-panel" class="config-card hidden">
+            <div class="tutorial-header">
+              <span id="lesson-badge" class="badge">Basics</span>
+              <span id="lesson-page-indicator" class="page-indicator">1 / 6</span>
+            </div>
+            <h3 id="lesson-title" class="lesson-title">Lesson Title</h3>
+            <div id="lesson-content" class="lesson-content-body"></div>
+            <div class="tutorial-nav-btns">
+              <button id="lesson-prev-btn" class="btn btn-secondary btn-sm">◀ Previous</button>
+              <button id="lesson-next-btn" class="btn btn-primary btn-sm">Next Lesson ▶</button>
+            </div>
+          </div>
+
+          <!-- Visual Customization & Accessibility -->
+          <div class="config-card">
+            <h3 class="card-title">Customization & Accessibility</h3>
+            
+            <div class="form-group">
+              <label for="piece-style-select">Piece Inscriptions</label>
+              <select id="piece-style-select" class="form-select">
+                <option value="kanji2" selected>Traditional (2 Kanji - 王将, 飛車)</option>
+                <option value="kanji1">Simplified (1 Kanji - 王, 飛, 竜)</option>
+                <option value="guide">Beginner Guide (Dots show moves!)</option>
+                <option value="western">International (K, R, +R symbols)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="theme-select">Board & Aesthetic Theme</label>
+              <select id="theme-select" class="form-select">
+                <option value="kaya" selected>Traditional Kaya Wood (本榧)</option>
+                <option value="zen">Zen Slate Dark (玄昌石)</option>
+                <option value="sakura">Cherry Blossom Sakura (桜)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-btn-row">
+            <button id="new-game-btn" class="btn btn-primary">⚔️ New Game</button>
+            <button id="undo-btn" class="btn btn-secondary">↩ Take Back</button>
+            <button id="resign-btn" class="btn btn-danger">🏳️ Resign</button>
+          </div>
+
+          <!-- Move History Log -->
+          <div class="history-card">
+            <div class="history-header">
+              <h4 data-i18n="moveHistory">Move History</h4>
+              <button id="export-sfen-btn" class="btn btn-xs btn-outline" title="Copy SFEN notation to clipboard">📋 Export SFEN</button>
+            </div>
+            <ul id="move-log-list" class="move-log-scroll">
+              <li class="move-log-empty">No moves recorded yet.</li>
+            </ul>
+            <!-- Move History Replay Navigation Controls -->
+            <div class="history-replay-controls">
+              <button id="hist-first-btn" class="btn btn-xs btn-secondary" title="First Move" data-i18n-title="btnFirstMove">⏮</button>
+              <button id="hist-prev-btn" class="btn btn-xs btn-secondary" title="Previous Move" data-i18n-title="btnPrevMove">◀</button>
+              <span id="hist-step-text" class="hist-step-indicator">Latest</span>
+              <button id="hist-next-btn" class="btn btn-xs btn-secondary" title="Next Move" data-i18n-title="btnNextMove">▶</button>
+              <button id="hist-latest-btn" class="btn btn-xs btn-primary" title="Latest Move" data-i18n-title="btnLatestMove">⏭ Latest</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Promotion Confirmation Modal -->
+    <div id="promo-modal" class="modal-backdrop">
+      <div class="modal-card">
+        <div class="modal-crest">成</div>
+        <h3 class="modal-title" data-i18n="promoTitle">Promote Piece?</h3>
+        <p class="modal-subtitle" data-i18n="promoSubtitle">Entering the enemy promotion zone unlocks advanced powers (成る).</p>
+        <div class="modal-actions">
+          <button id="promo-yes-btn" class="btn btn-primary btn-lg" data-i18n="promoYes">✨ Promote (成る)</button>
+          <button id="promo-no-btn" class="btn btn-secondary btn-lg" data-i18n="promoNo">Keep As-Is (不成)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-backdrop">
+      <div class="modal-card modal-card-wide">
+        <div class="modal-header-row">
+          <h3 class="modal-title"><span class="modal-icon">⚙️</span> <span data-i18n="settingsTitle">Game Settings</span></h3>
+          <button id="settings-close-btn" class="modal-close-btn" title="Close">&times;</button>
+        </div>
+
+        <div class="settings-grid">
+          <!-- 1. Language Setting -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <span class="setting-name" data-i18n="settingsLanguage">Language</span>
+              <span class="setting-desc">Interface & Game Terminology</span>
+            </label>
+            <div class="setting-control">
+              <select id="setting-language-select" class="form-select">
+                <option value="en">English (US)</option>
+                <option value="ja">日本語 (Japanese)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 2. Japanese Music (BGM) -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <span class="setting-name" data-i18n="settingsBgm">Traditional Japanese BGM</span>
+              <span class="setting-desc" data-i18n="settingsBgmDesc">Procedural Koto & Shakuhachi ambient melodies</span>
+            </label>
+            <div class="setting-control vertical-control">
+              <div class="toggle-row">
+                <button id="modal-bgm-toggle-btn" class="btn btn-primary btn-sm">🎵 Play BGM</button>
+                <span id="bgm-status-text" class="status-indicator-text">Playing</span>
+              </div>
+              <div class="volume-slider-row">
+                <span class="slider-label" data-i18n="settingsBgmVolume">Music Volume</span>
+                <input type="range" id="bgm-volume-slider" min="0" max="1" step="0.05" value="0.4" class="volume-range">
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Sound Effects (SFX) -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <span class="setting-name" data-i18n="settingsSfx">Piece Sound Effects</span>
+              <span class="setting-desc">Authentic wooden board snap ("Pachi!")</span>
+            </label>
+            <div class="setting-control">
+              <button id="modal-sfx-toggle-btn" class="btn btn-secondary btn-sm">🔊 SFX Enabled</button>
+            </div>
+          </div>
+
+          <!-- 4. Theme & Appearance -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <span class="setting-name" data-i18n="settingsTheme">Board Theme</span>
+              <span class="setting-desc">Visual aesthetics</span>
+            </label>
+            <div class="setting-control">
+              <select id="modal-theme-select" class="form-select">
+                <option value="kaya" data-i18n="themeKaya">Traditional Kaya Wood (本榧)</option>
+                <option value="zen" data-i18n="themeZen">Zen Slate Dark (玄昌石)</option>
+                <option value="sakura" data-i18n="themeSakura">Cherry Blossom Sakura (桜)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 5. Piece Inscriptions -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <span class="setting-name" data-i18n="settingsPieceStyle">Piece Inscriptions</span>
+              <span class="setting-desc">Symbols and movement guides</span>
+            </label>
+            <div class="setting-control">
+              <select id="modal-piece-style-select" class="form-select">
+                <option value="kanji2" data-i18n="pieceKanji2">Traditional (2 Kanji - 王将, 飛車)</option>
+                <option value="kanji1" data-i18n="pieceKanji1">Simplified (1 Kanji - 王, 飛, 竜)</option>
+                <option value="guide" data-i18n="pieceGuide">Beginner Guide (Dots show moves!)</option>
+                <option value="western" data-i18n="pieceWestern">International (K, R, +R symbols)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-actions">
+          <button id="settings-done-btn" class="btn btn-primary" data-i18n="btnClose">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account & Rating Modal -->
+    <div id="account-modal" class="modal-backdrop">
+      <div class="modal-card">
+        <div class="modal-header-row">
+          <h3 class="modal-title"><span class="modal-icon">👤</span> <span data-i18n="accountTitle">Player Account & Rating</span></h3>
+          <button id="account-close-btn" class="modal-close-btn" title="Close">&times;</button>
+        </div>
+
+        <!-- Logged-in Profile View -->
+        <div id="account-profile-view" class="account-profile-view hidden">
+          <div class="profile-badge-card">
+            <div class="profile-avatar-crest">将</div>
+            <div class="profile-main-info">
+              <h4 id="profile-username" class="profile-username">Player</h4>
+              <div class="profile-rank-tag">
+                <span id="profile-rank-badge" class="badge">5-Kyu</span>
+                <span id="profile-rank-title" class="rank-name">5級</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="profile-rating">1200</div>
+              <div class="stat-label" data-i18n="accountRating">Rating (ELO)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="profile-winrate">0%</div>
+              <div class="stat-label" data-i18n="accountWinrate">Win Rate</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value"><span id="profile-wins">0</span>W - <span id="profile-losses">0</span>L</div>
+              <div class="stat-label" data-i18n="accountStats">Record</div>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button id="account-switch-btn" class="btn btn-secondary btn-sm" data-i18n="accountSwitch">Switch Account / Logout</button>
+            <button id="account-continue-btn" class="btn btn-primary btn-sm">▶ Play Game</button>
+          </div>
+        </div>
+
+        <!-- Authentication Form (Sign In / Register) -->
+        <div id="account-auth-view" class="account-auth-view">
+          <p id="account-notice-text" class="account-notice" data-i18n="accountRequireNotice">
+            Please create an account or sign in to track your rating and rank!
+          </p>
+
+          <div class="auth-tabs">
+            <button id="tab-auth-register" class="auth-tab-btn active" data-i18n="accountCreate">Create Account</button>
+            <button id="tab-auth-login" class="auth-tab-btn" data-i18n="accountLogin">Sign In</button>
+          </div>
+
+          <form id="account-form" class="auth-form" onsubmit="return false;">
+            <div class="form-group">
+              <label for="auth-username" data-i18n="accountUsername">Username</label>
+              <input type="text" id="auth-username" class="form-input" placeholder="e.g. Meijin_Master" required minlength="2">
+            </div>
+
+            <div class="form-group">
+              <label for="auth-password" data-i18n="accountPassword">Password / PIN</label>
+              <input type="password" id="auth-password" class="form-input" placeholder="Enter password or 4-digit PIN" required>
+            </div>
+
+            <div id="auth-error-msg" class="auth-error hidden"></div>
+
+            <button type="submit" id="auth-submit-btn" class="btn btn-primary btn-block" data-i18n="accountSubmitCreate">Create Account & Play</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match Setup & Mode Selection Modal -->
+    <div id="match-setup-modal" class="modal-backdrop">
+      <div class="modal-card modal-card-wide match-setup-card">
+        <div class="modal-header-row">
+          <h3 class="modal-title"><span class="modal-icon">⚔️</span> <span data-i18n="setupTitle">Start Match</span></h3>
+          <button id="setup-close-btn" class="modal-close-btn" title="Close">&times;</button>
+        </div>
+
+        <!-- Step 1: Opponent Choice (Robot vs Person) -->
+        <div id="setup-step-1" class="setup-step">
+          <p class="setup-prompt" data-i18n="chooseOpponent">Who do you want to play against?</p>
+          <div class="opponent-choice-grid">
+            <div id="choice-robot-btn" class="opponent-choice-card">
+              <div class="opponent-avatar">🤖</div>
+              <h4 data-i18n="optRobot">Play Against Robot</h4>
+              <p data-i18n="optRobotDesc">Challenge an intelligent computer AI with customizable difficulty.</p>
+              <div class="choice-footer">
+                <span class="choice-arrow">Configure AI ▶</span>
+              </div>
+            </div>
+            <div id="choice-person-btn" class="opponent-choice-card">
+              <div class="opponent-avatar">👥</div>
+              <h4 data-i18n="optPerson">Play Against Person</h4>
+              <p data-i18n="optPersonDesc">Invite a friend or match with a random player near your skill level.</p>
+              <div class="choice-footer">
+                <span class="choice-arrow">Choose Match Mode ▶</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2A: Robot Configuration -->
+        <div id="setup-step-robot" class="setup-step hidden">
+          <div class="step-nav-header">
+            <button id="robot-back-btn" class="btn btn-secondary btn-sm" data-i18n="btnBack">◀ Back</button>
+            <h4 data-i18n="setupRobotTitle">Configure Robot Match</h4>
+          </div>
+
+          <div class="setup-section">
+            <label class="setup-label" data-i18n="selectDifficulty">Select AI Difficulty Level</label>
+            <div class="difficulty-cards-grid">
+              <div class="difficulty-card" data-diff="novice">
+                <div class="diff-header">
+                  <span class="diff-icon">🐣</span>
+                  <strong data-i18n="diffNoviceName">Novice (初級)</strong>
+                </div>
+                <p data-i18n="diffNoviceDesc">~1000 ELO · Gentle play, great for beginners</p>
+              </div>
+              <div class="difficulty-card" data-diff="apprentice">
+                <div class="diff-header">
+                  <span class="diff-icon">⚔️</span>
+                  <strong data-i18n="diffApprenticeName">Apprentice (中級)</strong>
+                </div>
+                <p data-i18n="diffApprenticeDesc">~1250 ELO · Solid tactical play and defense</p>
+              </div>
+              <div class="difficulty-card selected" data-diff="tactician">
+                <div class="diff-header">
+                  <span class="diff-icon">🏯</span>
+                  <strong data-i18n="diffTacticianName">Tactician (上級)</strong>
+                </div>
+                <p data-i18n="diffTacticianDesc">~1500 ELO · Sharp attacks & tricky drop threats</p>
+              </div>
+              <div class="difficulty-card" data-diff="master">
+                <div class="diff-header">
+                  <span class="diff-icon">👑</span>
+                  <strong data-i18n="diffMasterName">Master (有段者)</strong>
+                </div>
+                <p data-i18n="diffMasterDesc">~1750 ELO · Deep minimax search & ruthless calculation</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <label class="setup-label" data-i18n="selectSide">Choose Your Side</label>
+            <div class="side-picker-row">
+              <label class="side-pill">
+                <input type="radio" name="setup-player-side" value="sente" checked>
+                <span class="pill-body">☗ Sente (First / Black)</span>
+              </label>
+              <label class="side-pill">
+                <input type="radio" name="setup-player-side" value="random">
+                <span class="pill-body">🎲 Random Side</span>
+              </label>
+              <label class="side-pill">
+                <input type="radio" name="setup-player-side" value="gote">
+                <span class="pill-body">☖ Gote (Second / White)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setup-actions">
+            <button id="start-robot-game-btn" class="btn btn-primary btn-lg btn-block" data-i18n="btnStartRobotMatch">
+              ⚔️ Start Match Against Robot
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2B: Person Configuration -->
+        <div id="setup-step-person" class="setup-step hidden">
+          <div class="step-nav-header">
+            <button id="person-back-btn" class="btn btn-secondary btn-sm" data-i18n="btnBack">◀ Back</button>
+            <h4 data-i18n="setupPersonTitle">Play Against a Person</h4>
+          </div>
+
+          <div class="person-options-grid">
+            <!-- Option 1: Invite Friend / Pass & Play -->
+            <div class="person-option-card">
+              <div class="opt-badge">Option 1</div>
+              <h4 data-i18n="optInviteFriend">Invite a Friend / Pass & Play</h4>
+              <p data-i18n="optInviteFriendDesc">Play on the same screen (hotseat) or copy an instant match link to share.</p>
+
+              <div class="invite-link-box">
+                <label data-i18n="roomLinkTitle">Shareable Match Link:</label>
+                <div class="link-input-group">
+                  <input type="text" id="friend-room-link-input" readonly class="form-input text-xs" value="">
+                  <button id="copy-room-link-btn" class="btn btn-secondary btn-sm" data-i18n="btnCopyLink">📋 Copy Link</button>
+                </div>
+                <span id="copy-success-msg" class="copy-success hidden" data-i18n="linkCopied">Copied to clipboard!</span>
+              </div>
+
+              <button id="start-friend-btn" class="btn btn-primary btn-block" data-i18n="btnStartFriendMatch">
+                ▶ Start Friend Match (Pass & Play)
+              </button>
+            </div>
+
+            <!-- Option 2: Random Matchmaking -->
+            <div class="person-option-card">
+              <div class="opt-badge">Option 2</div>
+              <h4 data-i18n="optRandomOpponent">Play Against Random Opponent</h4>
+              <p data-i18n="optRandomOpponentDesc">Instantly find a player matched to your rating in the queue.</p>
+              <div class="player-queue-status">
+                <div class="queue-dot"></div>
+                <span>Online Queue Active · Rating Based Matching</span>
+              </div>
+              <button id="find-random-btn" class="btn btn-primary btn-block" data-i18n="btnFindRandomOpponent">
+                🔍 Find Random Opponent
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2C: Matchmaking Radar Screen -->
+        <div id="setup-step-radar" class="setup-step hidden">
+          <div class="radar-container">
+            <div class="radar-pulse-ring ring-1"></div>
+            <div class="radar-pulse-ring ring-2"></div>
+            <div class="radar-pulse-ring ring-3"></div>
+            <div class="radar-center-icon">将</div>
+          </div>
+
+          <div id="radar-status-text" class="radar-status-text" data-i18n="radarSearching">
+            Searching for opponent near your rating...
+          </div>
+          <p id="radar-subtext" class="radar-subtext" data-i18n="radarScanning">
+            Scanning active Shogi rooms...
+          </p>
+
+          <!-- Opponent Match Found Card -->
+          <div id="match-found-card" class="match-found-card hidden">
+            <div class="vs-badge">VS</div>
+            <div class="found-players-row">
+              <div class="found-player">
+                <div class="avatar sente-avatar">☗</div>
+                <strong id="found-p1-name">You</strong>
+                <span id="found-p1-rating" class="text-xs text-muted">1200 ELO</span>
+              </div>
+              <div class="vs-separator">⚡</div>
+              <div class="found-player">
+                <div class="avatar gote-avatar">☖</div>
+                <strong id="found-p2-name">Takeshi_81</strong>
+                <span id="found-p2-rating" class="text-xs text-muted">1220 ELO</span>
+              </div>
+            </div>
+            <div id="found-countdown" class="found-countdown" data-i18n="radarStarting">Starting match in 2 seconds...</div>
+          </div>
+
+          <div class="radar-actions">
+            <button id="cancel-radar-btn" class="btn btn-secondary btn-sm" data-i18n="btnCancelSearch">Cancel Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Entry Script (Works seamlessly over both http:// and local file://) -->
+  <script src="js/bundle.js"></script>
+</body>
+</html>

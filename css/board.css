@@ -1,0 +1,494 @@
+/**
+ * Shogi Web - Board, Komadai & Arena Styling
+ */
+
+.game-arena {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+}
+
+/* Player Panels (Top & Bottom) */
+.player-panel {
+  width: 100%;
+  max-width: 620px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--border-radius);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.player-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.sente-avatar {
+  background: #111;
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+
+.gote-avatar {
+  background: #f0f0f0;
+  color: #111;
+  border: 1px solid #ccc;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-role {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.player-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.player-clock {
+  font-family: monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--accent-gold);
+}
+
+/* Komadai (Stand for in-hand pieces) */
+.komadai-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.komadai-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.komadai-stand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  min-width: 180px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px dashed var(--panel-border);
+}
+
+.komadai-empty {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: auto;
+}
+
+.komadai-item {
+  position: relative;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: transform var(--transition-speed);
+}
+
+.komadai-item:hover {
+  transform: translateY(-2px);
+}
+
+.komadai-item.selected {
+  outline: 2px solid var(--accent-gold);
+  background: rgba(229, 169, 60, 0.25);
+}
+
+.piece-count-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* Board Stage & Frame */
+.board-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ai-thinking-pill {
+  position: absolute;
+  top: -38px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 10;
+}
+
+.ai-thinking-pill.visible {
+  display: flex;
+}
+
+.spinner-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  animation: pulseDot 1s infinite alternate;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* The Authentic Kaya Wooden Frame */
+.board-frame {
+  padding: 18px;
+  background: var(--board-gradient);
+  background-color: var(--board-bg);
+  border: 10px solid var(--board-border);
+  border-radius: 8px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 15px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+/* 9x9 Shogi Board Grid */
+.shogi-board {
+  display: grid;
+  grid-template-columns: repeat(9, 60px);
+  grid-template-rows: repeat(9, 64px);
+  border: 2px solid var(--board-grid);
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+/* Individual Board Cells */
+.board-cell {
+  position: relative;
+  border-right: 1px solid var(--board-grid);
+  border-bottom: 1px solid var(--board-grid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.board-cell:nth-child(9n) {
+  border-right: none;
+}
+
+.board-cell:nth-last-child(-n+9) {
+  border-bottom: none;
+}
+
+/* Coordinate Labels on Edges */
+.coord-label {
+  position: absolute;
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--board-grid);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.rank-label {
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.file-label {
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Hoshi (Star Dots) at 3x3 intersections */
+.board-hoshi {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: var(--hoshi-color);
+  border-radius: 50%;
+  bottom: -3px;
+  right: -3px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Selection and Move Highlights */
+.board-cell.selected {
+  background: rgba(229, 169, 60, 0.38) !important;
+}
+
+.board-cell.last-move-from {
+  background: rgba(229, 169, 60, 0.2);
+}
+
+.board-cell.last-move-to {
+  background: rgba(229, 169, 60, 0.35);
+}
+
+.board-cell.in-check {
+  background: rgba(220, 38, 38, 0.45) !important;
+  box-shadow: inset 0 0 10px #dc2626;
+}
+
+/* Legal Move Target Indicators */
+.board-cell.legal-move::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: rgba(34, 197, 94, 0.75);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
+}
+
+.board-cell.legal-capture {
+  background: rgba(239, 68, 68, 0.28);
+}
+
+.board-cell.legal-capture::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 2px dashed rgba(239, 68, 68, 0.9);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Status Cards & Banners */
+.status-turn {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.turn-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.badge-sente {
+  background: #111;
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+
+.badge-gote {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ccc;
+}
+
+.status-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.alert-check {
+  background: rgba(220, 38, 38, 0.2);
+  border: 1px solid #dc2626;
+  color: #fca5a5;
+}
+
+.alert-winner {
+  background: rgba(229, 169, 60, 0.2);
+  border: 1px solid var(--accent-gold);
+  color: #fef08a;
+  font-size: 1rem;
+}
+
+.alert-draw {
+  background: rgba(148, 163, 184, 0.2);
+  border: 1px solid #94a3b8;
+  color: #cbd5e1;
+}
+
+/* Puzzle & Academy styling */
+.puzzle-description {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.puzzle-feedback-box {
+  min-height: 38px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.puzzle-hint {
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  font-style: italic;
+}
+
+.puzzle-success {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.puzzle-fail {
+  font-size: 0.85rem;
+  color: #f87171;
+}
+
+.puzzle-info {
+  font-size: 0.82rem;
+  color: #60a5fa;
+}
+
+.puzzle-nav-btns, .tutorial-nav-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.tutorial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background: var(--accent-primary);
+  border-radius: 4px;
+  color: #fff;
+}
+
+.page-indicator {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.lesson-title {
+  font-size: 0.95rem;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+}
+
+.lesson-content-body {
+  font-size: 0.82rem;
+  color: var(--text-main);
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.lesson-content-body p {
+  margin-bottom: 8px;
+}
+
+.lesson-content-body ul, .lesson-content-body ol {
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.tutorial-piece-card {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--accent-gold);
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  border-radius: 0 6px 6px 0;
+}
+
+.tutorial-piece-card h4 {
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  margin-bottom: 2px;
+}
+
+.highlight-tip {
+  background: rgba(229, 169, 60, 0.15);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(229, 169, 60, 0.3);
+}
+
+/* Board responsive sizing for smaller laptop screens */
+@media (max-width: 768px) {
+  .shogi-board {
+    grid-template-columns: repeat(9, 36px);
+    grid-template-rows: repeat(9, 40px);
+  }
+  .board-frame {
+    padding: 10px;
+    border-width: 6px;
+  }
+}
