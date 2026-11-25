@@ -53,6 +53,7 @@
         <button id="home-nav-btn" class="btn btn-secondary btn-sm" title="Home / ホーム">🏠 <span data-i18n="btnHome">Home</span></button>
         <button id="lang-toggle-btn" class="btn btn-secondary btn-sm" title="Change Language / 言語切替 / Язык">🌐 EN / 日本語 / RU</button>
         <button id="bgm-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Japanese Traditional Music (BGM)">🎵 BGM</button>
+        <button id="bgm-next-btn" class="btn btn-secondary btn-sm" title="Switch Japanese Song / 曲切替" data-i18n="btnNextSong">⏭ Track</button>
         <button id="mute-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Sound Effects">🔊 SFX</button>
         <button id="flip-board-btn" class="btn btn-secondary btn-sm" title="Flip Board Perspective">🔄 Flip</button>
         <button id="settings-open-btn" class="btn btn-secondary btn-sm" title="Settings / 設定">⚙️ Settings</button>
@@ -147,8 +148,19 @@
 
       <!-- 2. GAME VIEW (ARENA + SIDEBAR DASHBOARD) -->
       <div id="game-view" class="game-view hidden">
-        <!-- Game Arena (Board + Komadai Stands) -->
+        <!-- Game Arena (Board + Komadai Stands OR Animated Tutorial Stage) -->
         <section class="game-arena">
+          <!-- Animated Tutorial Mode Switcher (only shown in tutorial mode) -->
+          <div id="tutorial-mode-bar" class="tutorial-mode-bar hidden">
+            <button type="button" id="tut-tab-anim" class="tut-mode-pill active" data-i18n="tabWatchAnim">🎬 Watch Animation</button>
+            <button type="button" id="tut-tab-board" class="tut-mode-pill" data-i18n="tabPracticeBoard">♟️ Practice 9×9 Board</button>
+          </div>
+
+          <!-- High-Quality Animated Tutorial Theater -->
+          <div id="tutorial-stage-card" class="tutorial-stage-card hidden">
+            <div id="tutorial-animator-mount"></div>
+          </div>
+
           <!-- Gote (White / Top) Player Banner & Stand -->
           <div class="player-panel gote-panel">
             <div class="player-identity">
@@ -366,6 +378,15 @@
               <div class="volume-slider-row">
                 <span class="slider-label" data-i18n="settingsBgmVolume">Music Volume</span>
                 <input type="range" id="bgm-volume-slider" min="0" max="1" step="0.05" value="0.4" class="volume-range">
+              </div>
+              <div class="volume-slider-row" style="margin-top: 6px;">
+                <span class="slider-label" data-i18n="settingsSong">Select Music Track</span>
+                <select id="modal-bgm-song-select" class="form-select" style="flex: 1;">
+                  <option value="sakura_spring">🌸 Sakura Breeze (桜風)</option>
+                  <option value="koto_zen">🌙 Moonlit Kaya Garden (月夜)</option>
+                  <option value="samurai_duel">🥁 Shogun's Battle (将軍の陣)</option>
+                  <option value="misty_temple">🔔 Misty Kyoto Temple (古寺)</option>
+                </select>
               </div>
             </div>
           </div>

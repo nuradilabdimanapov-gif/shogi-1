@@ -198,7 +198,11 @@ export const TRANSLATIONS = {
     onboardCreateProfileBtn: 'Complete Profile & Start Tutorial →',
     onboardStartTutorial: 'Register & Start Tutorial →',
     onboardTutorialPrompt: 'Interactive tutorial starts right after registration!',
-    btnFinishTutorial: '⚔️ Finish Tutorial & Play'
+    btnFinishTutorial: '⚔️ Finish Tutorial & Play',
+    tabWatchAnim: '🎬 Watch Animation',
+    tabPracticeBoard: '♟️ Practice 9×9 Board',
+    settingsSong: 'Select Music Track',
+    btnNextSong: '⏭ Track'
   },
 
   ja: {
@@ -395,7 +399,11 @@ export const TRANSLATIONS = {
     onboardCreateProfileBtn: 'プロフィール作成して入門へ →',
     onboardStartTutorial: '登録してチュートリアル開始 →',
     onboardTutorialPrompt: '登録後すぐに将棋入門チュートリアルが始まります！',
-    btnFinishTutorial: '⚔️ チュートリアル完了・対局へ'
+    btnFinishTutorial: '⚔️ チュートリアル完了・対局へ',
+    tabWatchAnim: '🎬 アニメ解説を見る',
+    tabPracticeBoard: '♟️ 9×9盤で練習する',
+    settingsSong: 'BGM楽曲を選択',
+    btnNextSong: '⏭ 曲切替'
   },
 
   ru: {
@@ -592,7 +600,11 @@ export const TRANSLATIONS = {
     onboardCreateProfileBtn: 'Создать профиль и начать обучение →',
     onboardStartTutorial: 'Зарегистрироваться и начать обучение →',
     onboardTutorialPrompt: 'Сразу после регистрации начнётся обучение на выбранном языке!',
-    btnFinishTutorial: '⚔️ Завершить обучение и играть'
+    btnFinishTutorial: '⚔️ Завершить обучение и играть',
+    tabWatchAnim: '🎬 Смотреть анимацию',
+    tabPracticeBoard: '♟️ Практика на доске 9×9',
+    settingsSong: 'Выбор мелодии (BGM)',
+    btnNextSong: '⏭ Трек'
   }
 };
 

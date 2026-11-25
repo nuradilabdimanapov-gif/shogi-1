@@ -8,6 +8,7 @@ import { ShogiGame } from './engine/shogi.js';
 import { ShogiAI } from './engine/ai.js';
 import { ShogiUI } from './ui.js';
 import { AudioManager } from './audio.js';
+import { TutorialAnimator } from './tutorialAnimator.js';
 import { TSUMESHOGI_PUZZLES } from './engine/puzzles.js';
 import { TUTORIAL_LESSONS } from './engine/tutorial.js';
 import { AccountManager } from './accounts.js';
@@ -35,6 +36,8 @@ class ShogiApp {
 
     // Tutorial
     this.currentLessonIdx = 0;
+    this.tutorialStageMode = 'anim'; // 'anim' or 'board'
+    this.tutorialAnimator = new TutorialAnimator('tutorial-animator-mount', this.audio);
 
     // View & Match Setup State
     this.currentView = 'landing'; // 'landing' or 'game'
@@ -78,6 +81,7 @@ class ShogiApp {
       this.ui.render();
       this.updateUserDisplay();
       this.updateLandingUserDisplay();
+      this.tutorialAnimator.setLanguage(getLanguage());
       if (this.mode === 'puzzle') this.loadPuzzle(this.currentPuzzleIdx);
       if (this.mode === 'tutorial') this.loadLesson(this.currentLessonIdx);
     });
@@ -314,7 +318,7 @@ class ShogiApp {
       });
     }
 
-    // Japanese BGM Toggle in Header
+    // Japanese BGM Toggle & Song Track Switcher
     const bgmToggleBtn = document.getElementById('bgm-toggle-btn');
     if (bgmToggleBtn) {
       bgmToggleBtn.addEventListener('click', () => {
@@ -323,6 +327,43 @@ class ShogiApp {
         this.updateBgmModalState();
       });
     }
+
+    const bgmNextBtn = document.getElementById('bgm-next-btn');
+    if (bgmNextBtn) {
+      bgmNextBtn.addEventListener('click', () => {
+        if (!this.audio.isBgmPlaying) {
+          this.audio.bgmMuted = false;
+          this.audio.startBgm();
+          if (bgmToggleBtn) bgmToggleBtn.textContent = '🎵 BGM: ON';
+        }
+        const song = this.audio.nextSong();
+        const songSelect = document.getElementById('modal-bgm-song-select');
+        if (songSelect) songSelect.value = song.id;
+        this.updateBgmModalState();
+      });
+    }
+
+    const modalSongSelect = document.getElementById('modal-bgm-song-select');
+    if (modalSongSelect) {
+      modalSongSelect.value = this.audio.currentSongId;
+      modalSongSelect.addEventListener('change', (e) => {
+        this.audio.setSong(e.target.value);
+        if (!this.audio.isBgmPlaying) {
+          this.audio.bgmMuted = false;
+          this.audio.startBgm();
+          if (bgmToggleBtn) bgmToggleBtn.textContent = '🎵 BGM: ON';
+        }
+        this.updateBgmModalState();
+      });
+    }
+
+    // Animated Tutorial Theater vs 9x9 Practice Board Toggle
+    document.getElementById('tut-tab-anim')?.addEventListener('click', () => {
+      this.setTutorialStageMode('anim');
+    });
+    document.getElementById('tut-tab-board')?.addEventListener('click', () => {
+      this.setTutorialStageMode('board');
+    });
 
     // Sound effects toggle
     const muteBtn = document.getElementById('mute-toggle-btn');
@@ -504,6 +545,7 @@ class ShogiApp {
   // --- Landing View & Game View Toggling ---
   showLandingView() {
     this.currentView = 'landing';
+    this.tutorialAnimator.stop();
     document.getElementById('landing-view')?.classList.remove('hidden');
     document.getElementById('game-view')?.classList.add('hidden');
     document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1038,12 +1080,44 @@ class ShogiApp {
     document.getElementById('puzzle-panel')?.classList.toggle('hidden', newMode !== 'puzzle');
     document.getElementById('tutorial-panel')?.classList.toggle('hidden', newMode !== 'tutorial');
 
-    if (newMode === 'puzzle') {
-      this.loadPuzzle(this.currentPuzzleIdx);
-    } else if (newMode === 'tutorial') {
+    // Show tutorial mode bar when in tutorial mode
+    document.getElementById('tutorial-mode-bar')?.classList.toggle('hidden', newMode !== 'tutorial');
+
+    if (newMode === 'tutorial') {
+      this.setTutorialStageMode('anim');
       this.loadLesson(this.currentLessonIdx);
     } else {
-      this.startNewGame();
+      this.tutorialAnimator.stop();
+      this.toggleBoardArenaVisibility(true);
+      if (newMode === 'puzzle') {
+        this.loadPuzzle(this.currentPuzzleIdx);
+      } else {
+        this.startNewGame();
+      }
+    }
+  }
+
+  toggleBoardArenaVisibility(showBoard) {
+    document.getElementById('tutorial-stage-card')?.classList.toggle('hidden', showBoard);
+    document.querySelector('.gote-panel')?.classList.toggle('hidden', !showBoard);
+    document.querySelector('.board-stage')?.classList.toggle('hidden', !showBoard);
+    document.querySelector('.sente-panel')?.classList.toggle('hidden', !showBoard);
+  }
+
+  setTutorialStageMode(stageMode) {
+    this.tutorialStageMode = stageMode;
+    document.getElementById('tut-tab-anim')?.classList.toggle('active', stageMode === 'anim');
+    document.getElementById('tut-tab-board')?.classList.toggle('active', stageMode === 'board');
+
+    if (stageMode === 'anim') {
+      this.toggleBoardArenaVisibility(false);
+      const lesson = TUTORIAL_LESSONS[this.currentLessonIdx];
+      if (lesson && lesson.animation) {
+        this.tutorialAnimator.loadLessonAnimation(lesson.animation, getLanguage());
+      }
+    } else {
+      this.tutorialAnimator.stop();
+      this.toggleBoardArenaVisibility(true);
     }
   }
 
@@ -1352,6 +1426,11 @@ class ShogiApp {
     const isLast = idx === TUTORIAL_LESSONS.length - 1;
     document.getElementById('lesson-next-btn')?.classList.toggle('hidden', isLast);
     document.getElementById('lesson-finish-btn')?.classList.toggle('hidden', !isLast);
+
+    // Load animated demonstration for this lesson if in animation tab
+    if (this.mode === 'tutorial' && this.tutorialStageMode === 'anim' && lesson.animation) {
+      this.tutorialAnimator.loadLessonAnimation(lesson.animation, lang);
+    }
 
     // Load interactive board demonstration for this lesson
     if (typeof lesson.setupBoard === 'function') {

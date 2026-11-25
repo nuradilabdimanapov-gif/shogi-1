@@ -17,6 +17,7 @@ files = [
     'js/engine/puzzles.js',
     'js/engine/tutorial.js',
     'js/audio.js',
+    'js/tutorialAnimator.js',
     'js/ui.js',
     'js/app.js'
 ]
