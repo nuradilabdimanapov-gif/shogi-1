@@ -50,6 +50,7 @@ class ShogiApp {
     this.bindEvents();
     this.initThemeAndStyles();
     this.initAccountsUI();
+    this.initOnboardingGate();
     this.updateUserDisplay();
     this.startNewGame();
 
@@ -68,6 +69,9 @@ class ShogiApp {
     } else {
       this.showGameView();
     }
+
+    // Require registration + Google sign-in for first-time visitors
+    this.checkFirstTimeVisitor();
 
     // Language change listener
     window.addEventListener('shogi_lang_changed', () => {
@@ -297,11 +301,13 @@ class ShogiApp {
       flipBtn.addEventListener('click', () => this.ui.toggleFlip());
     }
 
-    // Language toggle in header
+    // Language toggle in header (cycles EN -> JA -> RU)
     const langToggleBtn = document.getElementById('lang-toggle-btn');
     if (langToggleBtn) {
       langToggleBtn.addEventListener('click', () => {
-        const nextLang = getLanguage() === 'en' ? 'ja' : 'en';
+        const order = ['en', 'ja', 'ru'];
+        const idx = order.indexOf(getLanguage());
+        const nextLang = order[(idx + 1) % order.length];
         setLanguage(nextLang);
         const modalSelect = document.getElementById('setting-language-select');
         if (modalSelect) modalSelect.value = nextLang;
@@ -486,6 +492,13 @@ class ShogiApp {
     if (nextLessonBtn) {
       nextLessonBtn.addEventListener('click', () => this.changeLesson(1));
     }
+    const finishLessonBtn = document.getElementById('lesson-finish-btn');
+    if (finishLessonBtn) {
+      finishLessonBtn.addEventListener('click', () => {
+        this.accountManager.markTutorialCompleted();
+        this.showLandingView();
+      });
+    }
   }
 
   // --- Landing View & Game View Toggling ---
@@ -506,16 +519,123 @@ class ShogiApp {
     });
   }
 
+  getLocalizedRankTitle(rank) {
+    const lang = getLanguage();
+    if (lang === 'ja') return rank.titleJa;
+    if (lang === 'ru') return rank.titleRu || rank.titleEn;
+    return rank.titleEn;
+  }
+
+  checkFirstTimeVisitor() {
+    let onboarded = false;
+    try {
+      onboarded = localStorage.getItem('shogi_onboarded') === 'true';
+    } catch (e) {}
+
+    if (!this.accountManager.isLoggedIn() && !onboarded) {
+      const gate = document.getElementById('onboarding-gate');
+      if (gate) gate.classList.remove('hidden');
+    }
+  }
+
+  initOnboardingGate() {
+    const gate = document.getElementById('onboarding-gate');
+    const googleModal = document.getElementById('google-signin-modal');
+    const googleBtn = document.getElementById('onboard-google-btn');
+    const googleCloseBtn = document.getElementById('google-modal-close-btn');
+    const googleForm = document.getElementById('google-profile-form');
+    const localForm = document.getElementById('onboard-local-form');
+    let selectedAvatar = '将';
+
+    // Sync active language pill
+    const syncLangPills = (lang) => {
+      document.querySelectorAll('.onboard-lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+    };
+    syncLangPills(getLanguage());
+
+    document.querySelectorAll('.onboard-lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang || 'en';
+        setLanguage(lang);
+        syncLangPills(lang);
+        const modalSelect = document.getElementById('setting-language-select');
+        if (modalSelect) modalSelect.value = lang;
+      });
+    });
+
+    googleBtn?.addEventListener('click', () => {
+      googleModal?.classList.add('visible');
+    });
+
+    googleCloseBtn?.addEventListener('click', () => {
+      googleModal?.classList.remove('visible');
+    });
+
+    document.querySelectorAll('.avatar-choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-choice-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedAvatar = btn.dataset.avatar || '将';
+      });
+    });
+
+    const completeRegistrationAndStartTutorial = () => {
+      try {
+        localStorage.setItem('shogi_onboarded', 'true');
+      } catch (e) {}
+      googleModal?.classList.remove('visible');
+      gate?.classList.add('hidden');
+      this.updateUserDisplay();
+      this.updateLandingUserDisplay();
+      // Launch interactive tutorial in chosen language
+      this.currentLessonIdx = 0;
+      this.switchMode('tutorial');
+      this.showGameView();
+    };
+
+    googleForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('google-email-input')?.value || '';
+      const name = document.getElementById('google-name-input')?.value || '';
+      const errEl = document.getElementById('google-error-msg');
+      const res = this.accountManager.loginWithGoogle({ email, name, avatar: selectedAvatar });
+      if (res.success) {
+        if (errEl) errEl.classList.add('hidden');
+        completeRegistrationAndStartTutorial();
+      } else if (errEl) {
+        errEl.textContent = res.error;
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    localForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('onboard-username')?.value || '';
+      const password = document.getElementById('onboard-password')?.value || '';
+      const errEl = document.getElementById('onboard-error-msg');
+      const res = this.accountManager.register(username, password);
+      if (res.success) {
+        if (errEl) errEl.classList.add('hidden');
+        completeRegistrationAndStartTutorial();
+      } else if (errEl) {
+        errEl.textContent = res.error;
+        errEl.classList.remove('hidden');
+      }
+    });
+  }
+
   updateLandingUserDisplay() {
     const textEl = document.getElementById('landing-user-text');
     const user = this.accountManager.getCurrentUser();
     if (textEl) {
       if (user) {
         const rank = this.accountManager.getRank(user.rating);
-        const rankTitle = getLanguage() === 'ja' ? rank.titleJa : rank.titleEn;
-        textEl.innerHTML = `Welcome back, <strong>${user.username}</strong>! Rating: <strong>${user.rating}</strong> (${rankTitle})`;
+        const rankTitle = this.getLocalizedRankTitle(rank);
+        textEl.innerHTML = `${user.avatar || '👤'} <strong>${user.username}</strong> · ${user.rating} (${rankTitle})`;
       } else {
-        textEl.textContent = 'Welcome, Guest! Create an account to track your Dan/Kyu rating.';
+        textEl.textContent = t('accountRequireNotice');
       }
     }
   }
@@ -808,12 +928,11 @@ class ShogiApp {
 
       const user = this.accountManager.getCurrentUser();
       const rank = this.accountManager.getRank(user.rating);
-      const isJa = getLanguage() === 'ja';
 
       document.getElementById('profile-username').textContent = user.username;
       document.getElementById('profile-rating').textContent = user.rating;
       document.getElementById('profile-rank-badge').textContent = rank.badge;
-      document.getElementById('profile-rank-title').textContent = isJa ? rank.titleJa : rank.titleEn;
+      document.getElementById('profile-rank-title').textContent = this.getLocalizedRankTitle(rank);
       document.getElementById('profile-wins').textContent = user.wins || 0;
       document.getElementById('profile-losses').textContent = user.losses || 0;
 
@@ -843,7 +962,7 @@ class ShogiApp {
 
     if (user) {
       const rank = this.accountManager.getRank(user.rating);
-      const rankTitle = isJa ? rank.titleJa : rank.titleEn;
+      const rankTitle = this.getLocalizedRankTitle(rank);
       if (userLabel) userLabel.textContent = `${user.username} [${user.rating}]`;
 
       if (this.mode === 'ai') {
@@ -1211,18 +1330,48 @@ class ShogiApp {
 
     this.currentLessonIdx = idx;
     const lesson = TUTORIAL_LESSONS[idx];
+    const lang = getLanguage();
+
+    const title = lesson[`title_${lang}`] || lesson.title_en || lesson.title || '';
+    const subtitle = lesson[`subtitle_${lang}`] || lesson.subtitle_en || lesson.subtitle || '';
+    const badge = lesson[`badge_${lang}`] || lesson.badge_en || lesson.badge || '';
+    const content = lesson[`content_${lang}`] || lesson.content_en || lesson.content || '';
 
     const titleEl = document.getElementById('lesson-title');
-    if (titleEl) titleEl.textContent = `${lesson.title} - ${lesson.subtitle}`;
+    if (titleEl) titleEl.textContent = `${title} — ${subtitle}`;
 
     const badgeEl = document.getElementById('lesson-badge');
-    if (badgeEl) badgeEl.textContent = lesson.badge;
+    if (badgeEl) badgeEl.textContent = badge;
 
     const contentEl = document.getElementById('lesson-content');
-    if (contentEl) contentEl.innerHTML = lesson.content;
+    if (contentEl) contentEl.innerHTML = content;
 
     const pageEl = document.getElementById('lesson-page-indicator');
     if (pageEl) pageEl.textContent = `${idx + 1} / ${TUTORIAL_LESSONS.length}`;
+
+    const isLast = idx === TUTORIAL_LESSONS.length - 1;
+    document.getElementById('lesson-next-btn')?.classList.toggle('hidden', isLast);
+    document.getElementById('lesson-finish-btn')?.classList.toggle('hidden', !isLast);
+
+    // Load interactive board demonstration for this lesson
+    if (typeof lesson.setupBoard === 'function') {
+      const demo = lesson.setupBoard();
+      if (demo) {
+        this.game.board = demo.board;
+        this.game.hands = demo.hands;
+        this.game.turn = demo.turn;
+        this.game.moveHistory = [];
+        this.game.positionHistory = [];
+        this.game.status = 'active';
+        this.game.winner = null;
+        this.game.inCheck = false;
+      } else {
+        this.game.reset();
+      }
+      this.ui.isFlipped = false;
+      this.ui.clearSelection();
+      this.ui.render();
+    }
   }
 
   changeLesson(delta) {

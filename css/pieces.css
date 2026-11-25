@@ -14,19 +14,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45));
   cursor: pointer;
   user-select: none;
   transition: transform 0.15s ease, filter 0.15s ease;
   z-index: 5;
 }
 
-/* Wood grain texture effect on pieces */
+/* Carved wood bevel & grain texture effect on pieces */
 .shogi-piece::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(170deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%);
+  background:
+    repeating-linear-gradient(92deg, rgba(139, 90, 43, 0.04) 0px, rgba(139, 90, 43, 0.04) 2px, transparent 2px, transparent 6px),
+    linear-gradient(170deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.18) 100%);
+  pointer-events: none;
+}
+
+.shogi-piece::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  -webkit-clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.18);
   pointer-events: none;
 }
 

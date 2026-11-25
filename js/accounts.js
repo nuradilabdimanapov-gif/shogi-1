@@ -30,7 +30,7 @@ export class AccountManager {
     try {
       localStorage.setItem('shogi_accounts', JSON.stringify(this.accounts));
       if (this.currentUser) {
-        localStorage.setItem('shogi_current_user', this.currentUser.username);
+        localStorage.setItem('shogi_current_user', this.currentUser.accountKey || this.currentUser.username);
       } else {
         localStorage.removeItem('shogi_current_user');
       }
@@ -49,7 +49,7 @@ export class AccountManager {
     return this.currentUser;
   }
 
-  register(username, password) {
+  register(username, password, extra = {}) {
     username = (username || '').trim();
     if (!username || username.length < 2) {
       return { success: false, error: 'Username must be at least 2 characters long.' };
@@ -61,11 +61,15 @@ export class AccountManager {
     const newUser = {
       username,
       password: password || '1234',
+      email: extra.email || '',
+      avatar: extra.avatar || '将',
+      provider: extra.provider || 'local',
       rating: 1200,
       peakRating: 1200,
       wins: 0,
       losses: 0,
       draws: 0,
+      tutorialCompleted: false,
       createdAt: new Date().toISOString()
     };
 
@@ -77,6 +81,69 @@ export class AccountManager {
     this.syncToServer(newUser);
 
     return { success: true, user: newUser };
+  }
+
+  loginWithGoogle({ email, name, avatar }) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanName = (name || '').trim();
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      return { success: false, error: 'Please enter a valid Google email address.' };
+    }
+    if (!cleanName || cleanName.length < 2) {
+      return { success: false, error: 'Display name must be at least 2 characters long.' };
+    }
+
+    // Check if an account with this Google email already exists
+    const existing = Object.values(this.accounts).find(
+      acc => acc.provider === 'google' && acc.email && acc.email.toLowerCase() === cleanEmail
+    );
+    if (existing) {
+      existing.username = cleanName;
+      if (avatar) existing.avatar = avatar;
+      this.currentUser = existing;
+      this.saveAccounts();
+      return { success: true, user: existing, isNew: false };
+    }
+
+    // Ensure unique username key
+    let key = cleanName;
+    if (this.accounts[key]) {
+      key = `${cleanName}_${Math.floor(100 + Math.random() * 900)}`;
+    }
+
+    const newUser = {
+      username: cleanName,
+      accountKey: key,
+      password: '',
+      email: cleanEmail,
+      avatar: avatar || '将',
+      provider: 'google',
+      rating: 1200,
+      peakRating: 1200,
+      wins: 0,
+      losses: 0,
+      draws: 0,
+      tutorialCompleted: false,
+      createdAt: new Date().toISOString()
+    };
+
+    this.accounts[key] = newUser;
+    this.currentUser = newUser;
+    try {
+      localStorage.setItem('shogi_google_user', JSON.stringify({ email: cleanEmail, name: cleanName, avatar: newUser.avatar }));
+      localStorage.setItem('shogi_current_user', key);
+    } catch (e) {}
+    this.saveAccounts();
+    this.syncToServer(newUser);
+
+    return { success: true, user: newUser, isNew: true };
+  }
+
+  markTutorialCompleted() {
+    if (this.currentUser) {
+      this.currentUser.tutorialCompleted = true;
+      this.saveAccounts();
+    }
   }
 
   login(username, password) {
@@ -103,18 +170,18 @@ export class AccountManager {
   getRank(rating = null) {
     const r = rating !== null ? rating : (this.currentUser ? this.currentUser.rating : 1200);
 
-    if (r < 1000) return { titleEn: '15-Kyu', titleJa: '15級', badge: 'Novice' };
-    if (r < 1100) return { titleEn: '10-Kyu', titleJa: '10級', badge: 'Apprentice' };
-    if (r < 1200) return { titleEn: '8-Kyu', titleJa: '8級', badge: 'Junior' };
-    if (r < 1300) return { titleEn: '6-Kyu', titleJa: '6級', badge: 'Intermediate' };
-    if (r < 1400) return { titleEn: '4-Kyu', titleJa: '4級', badge: 'Tactician' };
-    if (r < 1500) return { titleEn: '2-Kyu', titleJa: '2級', badge: 'Senior' };
-    if (r < 1600) return { titleEn: '1-Kyu', titleJa: '1級', badge: 'Expert' };
-    if (r < 1700) return { titleEn: '1-Dan (Shodan)', titleJa: '初段', badge: 'Dan Master' };
-    if (r < 1800) return { titleEn: '2-Dan', titleJa: '二段', badge: 'Dan Master' };
-    if (r < 1900) return { titleEn: '3-Dan', titleJa: '三段', badge: 'High Master' };
-    if (r < 2000) return { titleEn: '4-Dan', titleJa: '四段', badge: 'High Master' };
-    return { titleEn: '5-Dan Grandmaster', titleJa: '五段 (師範)', badge: 'Grandmaster' };
+    if (r < 1000) return { titleEn: '15-Kyu', titleJa: '15級', titleRu: '15-й кю', badge: 'Novice' };
+    if (r < 1100) return { titleEn: '10-Kyu', titleJa: '10級', titleRu: '10-й кю', badge: 'Apprentice' };
+    if (r < 1200) return { titleEn: '8-Kyu', titleJa: '8級', titleRu: '8-й кю', badge: 'Junior' };
+    if (r < 1300) return { titleEn: '6-Kyu', titleJa: '6級', titleRu: '6-й кю', badge: 'Intermediate' };
+    if (r < 1400) return { titleEn: '4-Kyu', titleJa: '4級', titleRu: '4-й кю', badge: 'Tactician' };
+    if (r < 1500) return { titleEn: '2-Kyu', titleJa: '2級', titleRu: '2-й кю', badge: 'Senior' };
+    if (r < 1600) return { titleEn: '1-Kyu', titleJa: '1級', titleRu: '1-й кю', badge: 'Expert' };
+    if (r < 1700) return { titleEn: '1-Dan (Shodan)', titleJa: '初段', titleRu: '1-й дан (Сёдан)', badge: 'Dan Master' };
+    if (r < 1800) return { titleEn: '2-Dan', titleJa: '二段', titleRu: '2-й дан', badge: 'Dan Master' };
+    if (r < 1900) return { titleEn: '3-Dan', titleJa: '三段', titleRu: '3-й дан', badge: 'High Master' };
+    if (r < 2000) return { titleEn: '4-Dan', titleJa: '四段', titleRu: '4-й дан', badge: 'High Master' };
+    return { titleEn: '5-Dan Grandmaster', titleJa: '五段 (師範)', titleRu: '5-й дан Гроссмейстер', badge: 'Grandmaster' };
   }
 
   // Update ELO rating after a game:

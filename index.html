@@ -51,7 +51,7 @@
       <!-- Quick Action Controls -->
       <div class="header-controls">
         <button id="home-nav-btn" class="btn btn-secondary btn-sm" title="Home / ホーム">🏠 <span data-i18n="btnHome">Home</span></button>
-        <button id="lang-toggle-btn" class="btn btn-secondary btn-sm" title="Change Language / 言語切替">🌐 EN / 日本語</button>
+        <button id="lang-toggle-btn" class="btn btn-secondary btn-sm" title="Change Language / 言語切替 / Язык">🌐 EN / 日本語 / RU</button>
         <button id="bgm-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Japanese Traditional Music (BGM)">🎵 BGM</button>
         <button id="mute-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Sound Effects">🔊 SFX</button>
         <button id="flip-board-btn" class="btn btn-secondary btn-sm" title="Flip Board Perspective">🔄 Flip</button>
@@ -256,9 +256,10 @@
             <h3 id="lesson-title" class="lesson-title">Lesson Title</h3>
             <div id="lesson-content" class="lesson-content-body"></div>
             <div class="tutorial-nav-btns">
-              <button id="lesson-prev-btn" class="btn btn-secondary btn-sm">◀ Previous</button>
-              <button id="lesson-next-btn" class="btn btn-primary btn-sm">Next Lesson ▶</button>
+              <button id="lesson-prev-btn" class="btn btn-secondary btn-sm" data-i18n="btnPrev">◀ Previous</button>
+              <button id="lesson-next-btn" class="btn btn-primary btn-sm" data-i18n="btnNextLesson">Next Lesson ▶</button>
             </div>
+            <button id="lesson-finish-btn" class="btn btn-primary btn-block hidden" style="margin-top: 10px;" data-i18n="btnFinishTutorial">⚔️ Finish Tutorial & Play</button>
           </div>
 
           <!-- Visual Customization & Accessibility -->
@@ -346,6 +347,7 @@
               <select id="setting-language-select" class="form-select">
                 <option value="en">English (US)</option>
                 <option value="ja">日本語 (Japanese)</option>
+                <option value="ru">Русский (Russian)</option>
               </select>
             </div>
           </div>
@@ -669,6 +671,102 @@
             <button id="cancel-radar-btn" class="btn btn-secondary btn-sm" data-i18n="btnCancelSearch">Cancel Search</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- First-Time Visitor Registration & Google Sign-In Gate -->
+    <div id="onboarding-gate" class="onboarding-overlay hidden">
+      <div class="onboarding-card">
+        <!-- Language Selection Bar -->
+        <div class="onboard-lang-bar">
+          <button type="button" class="onboard-lang-btn active" data-lang="en">🇺🇸 English</button>
+          <button type="button" class="onboard-lang-btn" data-lang="ja">🇯🇵 日本語</button>
+          <button type="button" class="onboard-lang-btn" data-lang="ru">🇷🇺 Русский</button>
+        </div>
+
+        <div class="onboard-crest">将</div>
+        <div class="hero-badge" data-i18n="onboardBadge" style="margin-bottom: 10px;">Welcome to Shogi Web</div>
+        <h2 class="onboard-title" data-i18n="onboardTitle">Create Your Player Profile</h2>
+        <p class="onboard-subtitle" data-i18n="onboardSubtitle">
+          Sign in with Google to save your rating, rank, and start your personalized Shogi tutorial.
+        </p>
+
+        <!-- Official-Styled Sign in with Google Button -->
+        <button type="button" id="onboard-google-btn" class="btn-google-signin">
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          <span data-i18n="onboardGoogleBtn">Sign in with Google</span>
+        </button>
+
+        <div class="onboard-divider"><span data-i18n="onboardOr">or create a local profile</span></div>
+
+        <form id="onboard-local-form" class="onboard-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="onboard-username" data-i18n="accountUsername">Username</label>
+            <input type="text" id="onboard-username" class="form-input" placeholder="e.g. Meijin_Master" required minlength="2">
+          </div>
+          <div class="form-group">
+            <label for="onboard-password" data-i18n="accountPassword">Password / PIN</label>
+            <input type="password" id="onboard-password" class="form-input" placeholder="••••" required minlength="2">
+          </div>
+          <div id="onboard-error-msg" class="auth-error hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block" data-i18n="onboardStartTutorial">
+            Register & Start Tutorial →
+          </button>
+        </form>
+
+        <p class="onboard-tutorial-note" data-i18n="onboardTutorialPrompt">
+          Interactive tutorial starts right after registration!
+        </p>
+      </div>
+    </div>
+
+    <!-- Google Sign-In & Profile Creation Modal -->
+    <div id="google-signin-modal" class="modal-backdrop" style="z-index: 2100;">
+      <div class="modal-card">
+        <div class="modal-header-row">
+          <h3 class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <span data-i18n="onboardGoogleModalTitle">Sign in with Google</span>
+          </h3>
+          <button id="google-modal-close-btn" class="modal-close-btn" title="Close">&times;</button>
+        </div>
+        <p class="modal-subtitle" data-i18n="onboardGoogleModalSub" style="margin-bottom: 16px;">
+          Enter your Google account details to create your Shogi profile
+        </p>
+        <form id="google-profile-form" class="onboard-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="google-email-input" data-i18n="onboardEmailLabel">Google Email</label>
+            <input type="email" id="google-email-input" class="form-input" placeholder="name@gmail.com" required>
+          </div>
+          <div class="form-group">
+            <label for="google-name-input" data-i18n="onboardNameLabel">Display Name</label>
+            <input type="text" id="google-name-input" class="form-input" placeholder="Your Player Name" required minlength="2">
+          </div>
+          <div class="form-group">
+            <label data-i18n="onboardAvatarLabel">Choose Your Crest</label>
+            <div class="avatar-picker-row">
+              <button type="button" class="avatar-choice-btn selected" data-avatar="将">将</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="竜">竜</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="王">王</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="桜">桜</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="飛">飛</button>
+            </div>
+          </div>
+          <div id="google-error-msg" class="auth-error hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block" data-i18n="onboardCreateProfileBtn">
+            Complete Profile & Start Tutorial →
+          </button>
+        </form>
       </div>
     </div>
   </div>

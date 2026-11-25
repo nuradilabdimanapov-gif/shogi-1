@@ -784,3 +784,383 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   FIRST-TIME REGISTRATION & GOOGLE SIGN-IN GATE
+   ============================================================ */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(229, 169, 60, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(201, 123, 43, 0.14) 0%, transparent 45%),
+    linear-gradient(145deg, #161310 0%, #241e18 50%, #12100e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(34, 29, 24, 0.96);
+  border: 1px solid rgba(229, 169, 60, 0.35);
+  border-radius: 22px;
+  padding: 32px 28px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75);
+  text-align: center;
+  position: relative;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.onboard-lang-bar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.onboard-lang-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.onboard-lang-btn:hover {
+  color: #fff;
+  border-color: var(--accent-gold);
+}
+
+.onboard-lang-btn.active {
+  background: var(--accent-gold);
+  color: #161310;
+  border-color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.onboard-crest {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-primary));
+  color: #161310;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 900;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(229, 169, 60, 0.35);
+}
+
+.onboard-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.onboard-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.btn-google-signin {
+  width: 100%;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-google-signin:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+.onboard-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.onboard-divider::before,
+.onboard-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.onboard-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.avatar-picker-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.avatar-choice-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  color: var(--accent-gold);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.avatar-choice-btn.selected {
+  border-color: var(--accent-gold);
+  background: rgba(229, 169, 60, 0.2);
+  transform: scale(1.08);
+}
+
+.onboard-tutorial-note {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: var(--accent-gold);
+  opacity: 0.9;
+}
+
+/* ============================================================
+   CRAFTED TUTORIAL DIAGRAMS & MINI-KOMA PIECES
+   ============================================================ */
+.lesson-content-body {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-main);
+}
+
+.tut-hero-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(229, 169, 60, 0.25);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.tut-card {
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.tut-side-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-side-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+
+.tut-piece-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tut-piece-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(229, 169, 60, 0.22);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.tut-piece-info h4 {
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+  margin-bottom: 3px;
+}
+
+.tut-piece-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Crafted Pentagonal Koma for Tutorial */
+.tut-koma {
+  position: relative;
+  width: 30px;
+  height: 33px;
+  background: linear-gradient(170deg, #fae0ae 0%, #e5b76b 100%);
+  clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  -webkit-clip-path: polygon(50% 0%, 100% 24%, 88% 100%, 12% 100%, 0% 24%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: #2c1a0a;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+  flex-shrink: 0;
+}
+
+.tut-koma.large {
+  width: 44px;
+  height: 48px;
+  font-size: 1.05rem;
+}
+
+.tut-koma.mini {
+  width: 24px;
+  height: 27px;
+  font-size: 0.72rem;
+}
+
+.tut-koma.flipped {
+  transform: rotate(180deg);
+}
+
+.tut-koma.promoted {
+  color: #b91c1c;
+}
+
+/* Mini Kaya Wood Movement Grid */
+.tut-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
+  grid-template-rows: repeat(3, 34px);
+  background: linear-gradient(135deg, #e9b972 0%, #d89f53 100%);
+  border: 2px solid #6d4b23;
+  border-radius: 5px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.tut-mini-grid.grid-5 {
+  grid-template-columns: repeat(5, 22px);
+  grid-template-rows: repeat(5, 24px);
+}
+
+.tut-mini-grid.grid-5 .tut-koma {
+  width: 20px;
+  height: 22px;
+  font-size: 0.65rem;
+}
+
+.tut-cell {
+  border-right: 1px solid rgba(84, 57, 26, 0.55);
+  border-bottom: 1px solid rgba(84, 57, 26, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tut-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.8);
+}
+
+.tut-slide {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #ea580c;
+  box-shadow: 0 0 6px rgba(234, 88, 12, 0.8);
+  transform: rotate(45deg);
+}
+
+.tut-jump {
+  font-size: 0.75rem;
+  color: #16a34a;
+  font-weight: 900;
+}
+
+.tut-promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.tut-promo-pair {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.24);
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.tut-ol {
+  padding-left: 18px;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.tut-ol li {
+  margin-bottom: 4px;
+}
+
+.tut-tip {
+  background: rgba(229, 169, 60, 0.12);
+  border-left: 3px solid var(--accent-gold);
+  padding: 8px 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  margin-top: 8px;
+}

@@ -487,7 +487,24 @@ const TRANSLATIONS = {
     btnPrevMove: '◀ Prev',
     btnNextMove: '▶ Next',
     btnLatestMove: '⏭ Latest',
-    viewingMove: 'Viewing move'
+    viewingMove: 'Viewing move',
+
+    // Onboarding / Registration Gate
+    onboardBadge: 'Welcome to Shogi Web',
+    onboardTitle: 'Create Your Player Profile',
+    onboardSubtitle: 'Sign in with Google to save your rating, rank, and start your personalized Shogi tutorial.',
+    onboardChooseLang: 'Choose Your Language / 言語 / Язык',
+    onboardGoogleBtn: 'Sign in with Google',
+    onboardOr: 'or create a local profile',
+    onboardGoogleModalTitle: 'Sign in with Google',
+    onboardGoogleModalSub: 'Enter your Google account details to create your Shogi profile',
+    onboardEmailLabel: 'Google Email',
+    onboardNameLabel: 'Display Name',
+    onboardAvatarLabel: 'Choose Your Crest',
+    onboardCreateProfileBtn: 'Complete Profile & Start Tutorial →',
+    onboardStartTutorial: 'Register & Start Tutorial →',
+    onboardTutorialPrompt: 'Interactive tutorial starts right after registration!',
+    btnFinishTutorial: '⚔️ Finish Tutorial & Play'
   },
 
   ja: {
@@ -667,7 +684,221 @@ const TRANSLATIONS = {
     btnPrevMove: '◀ 前の一手',
     btnNextMove: '▶ 次の一手',
     btnLatestMove: '⏭ 最新局面',
-    viewingMove: '局面確認中:'
+    viewingMove: '局面確認中:',
+
+    // Onboarding / Registration Gate
+    onboardBadge: '将棋Webへようこそ',
+    onboardTitle: 'プレイヤープロフィールを作成',
+    onboardSubtitle: 'Googleアカウントでログインして段級位を保存し、将棋チュートリアルを始めましょう。',
+    onboardChooseLang: '言語を選択 / Language / Язык',
+    onboardGoogleBtn: 'Googleでログイン',
+    onboardOr: 'またはローカルアカウントを作成',
+    onboardGoogleModalTitle: 'Googleでログイン',
+    onboardGoogleModalSub: 'Googleアカウント情報を入力してプロフィールを作成',
+    onboardEmailLabel: 'Googleメールアドレス',
+    onboardNameLabel: '表示名 (プレイヤー名)',
+    onboardAvatarLabel: '家紋・アイコンを選択',
+    onboardCreateProfileBtn: 'プロフィール作成して入門へ →',
+    onboardStartTutorial: '登録してチュートリアル開始 →',
+    onboardTutorialPrompt: '登録後すぐに将棋入門チュートリアルが始まります！',
+    btnFinishTutorial: '⚔️ チュートリアル完了・対局へ'
+  },
+
+  ru: {
+    // Brand & Header
+    brandTitle: 'СЁГИ ВЕБ',
+    brandTagline: 'Искусство и стратегия японских шахмат',
+    tabPlayAi: 'Игра с ИИ',
+    tabPvp: 'За одним ПК',
+    tabPuzzle: 'Цумэсёги',
+    tabAcademy: 'Академия',
+    btnSound: 'Звук',
+    btnUnmute: 'Включить звук',
+    btnFlip: 'Перевернуть',
+    btnSettings: 'Настройки',
+    btnAccount: 'Аккаунт',
+    btnSignIn: 'Войти',
+
+    // Player Panels
+    senteRole: 'Сэнтэ (先手 / Чёрные)',
+    goteRole: 'Готэ (後手 / Белые)',
+    komadai: 'Комадай (подставка)',
+    komadaiEmpty: 'Пусто',
+    aiOpponent: 'Противник-ИИ',
+    guestUser: 'Гость',
+    aiThinking: 'ИИ обдумывает ход...',
+
+    // Settings
+    settingsTitle: 'Настройки игры',
+    settingsLanguage: 'Язык',
+    settingsBgm: 'Традиционная японская музыка',
+    settingsBgmDesc: 'Процедурные мелодии кото и сякухати',
+    settingsBgmVolume: 'Громкость музыки',
+    settingsSfx: 'Звуковые эффекты (стук фигур)',
+    settingsTheme: 'Тема доски и оформление',
+    settingsPieceStyle: 'Начертание фигур',
+    themeKaya: 'Традиционное дерево кая (本榧)',
+    themeZen: 'Тёмный сланец дзэн (玄昌石)',
+    themeSakura: 'Цветущая сакура (桜)',
+    pieceKanji2: 'Традиционные (2 кандзи — 王将, 飛車)',
+    pieceKanji1: 'Упрощённые (1 кандзи — 王, 飛, 竜)',
+    pieceGuide: 'Для начинающих (точки показывают ходы!)',
+    pieceWestern: 'Международные (K, R, +R — символы)',
+    btnClose: 'Закрыть',
+
+    // Match Config
+    matchSettings: 'Настройки партии',
+    aiDifficulty: 'Сложность ИИ',
+    diffNovice: 'Новичок (初級) — мягко и снисходительно',
+    diffApprentice: 'Ученик (中級) — хорошо для практики',
+    diffTactician: 'Тактик (上級) — остро и стратегично',
+    diffMaster: 'Мастер (有段者) — глубокий расчёт',
+    playAs: 'Играть за',
+    senteFirst: '☗ Сэнтэ (первый / чёрные)',
+    goteSecond: '☖ Готэ (второй / белые)',
+    btnNewGame: '⚔️ Новая партия',
+    btnTakeBack: '↩ Взять ход назад',
+    btnResign: '🏳️ Сдаться',
+    btnExportSfen: '📋 Экспорт SFEN',
+    moveHistory: 'История ходов',
+    noMovesYet: 'Ходов пока нет. Сделайте первый ход!',
+
+    // Status Announcements
+    turnToMove: 'ходит.',
+    turnSente: 'Сэнтэ (Чёрные / 先手)',
+    turnGote: 'Готэ (Белые / 後手)',
+    statusCheck: 'Шах (王手)!',
+    statusCheckmate: 'Мат (詰み)!',
+    statusWins: 'побеждает!',
+    statusResign: 'Сдача партии',
+    statusRepetition: 'Ничья по сэнничитэ (千日手) — четырёхкратное повторение!',
+    statusStalemate: 'Ничья — пат!',
+    confirmResign: 'Вы уверены, что хотите сдаться? (投了しますか？)',
+    confirmNewGame: 'Начать новую партию?',
+
+    // Promotion Modal
+    promoTitle: 'Превратить фигуру?',
+    promoSubtitle: 'Вход в зону превращения открывает усиленные способности (成る).',
+    promoYes: '✨ Превратить (成る)',
+    promoNo: 'Оставить как есть (不成)',
+
+    // Accounts & Rating
+    accountTitle: 'Аккаунт и рейтинг игрока',
+    accountCreate: 'Создать аккаунт',
+    accountLogin: 'Войти в аккаунт',
+    accountUsername: 'Имя пользователя',
+    accountPassword: 'Пароль (ПИН-код или пароль)',
+    accountSubmitCreate: 'Создать аккаунт и играть',
+    accountSubmitLogin: 'Войти',
+    accountSwitch: 'Сменить аккаунт / Выйти',
+    accountRating: 'Рейтинг (ELO)',
+    accountRank: 'Ранг сёги',
+    accountStats: 'Статистика',
+    accountWins: 'Победы',
+    accountLosses: 'Поражения',
+    accountDraws: 'Ничьи',
+    accountWinrate: 'Процент побед',
+    accountRequireNotice: 'Войдите или создайте аккаунт, чтобы начать играть и отслеживать свой рейтинг!',
+    accountGuestPrompt: 'Ещё нет аккаунта? Создайте за пару секунд!',
+    accountLoginPrompt: 'Уже есть аккаунт? Войдите здесь.',
+
+    // Puzzles & Academy
+    puzzleHeader: 'Задача цумэсёги',
+    puzzleHint: 'Подсказка:',
+    puzzleSuccess: '🎉 Верно! Мат поставлен (詰み)!',
+    puzzleFail: '❌ Не совсем. Король противника ускользает! Попробуйте снова.',
+    puzzleInfo: 'Хороший ход! Теперь поставьте завершающий мат.',
+    btnPrev: '◀ Назад',
+    btnRetry: '↺ Заново',
+    btnNext: 'Далее ▶',
+    btnNextLesson: 'Следующий урок ▶',
+
+    // Landing Page & Match Setup
+    btnHome: 'Главная',
+    heroBadge: 'Традиционные японские шахматы',
+    heroTitle: 'ОСВОЙТЕ ИСКУССТВО СЁГИ',
+    heroTagline: 'Захваченные фигуры возвращаются в бой на вашей стороне. Переиграйте соперника в главной стратегической игре.',
+    heroStartGame: '⚔️ Начать игру',
+    heroPuzzles: '🧩 Задачи цумэсёги',
+    heroAcademy: '📖 Правила сёги',
+    heroFeaturesTitle: 'Почему стоит играть в Сёги Веб',
+    featAiTitle: 'Умные ИИ-противники',
+    featAiDesc: 'Играйте с движком от новичка до мастера — реалистичный стиль игры.',
+    featPvpTitle: 'Игра с людьми',
+    featPvpDesc: 'Пригласите друга по ссылке или сразитесь со случайным онлайн-соперником.',
+    featRatingTitle: 'Официальные ранги дан / кю',
+    featRatingDesc: 'Поднимайтесь по лестнице от 15-кю ученика до 5-дан гроссмейстера.',
+    featAudioTitle: 'Традиционная японская музыка',
+    featAudioDesc: 'Процедурные мелодии кото и сякухати, а также характерный стук фигур о доску.',
+
+    // Match Setup Modal
+    setupTitle: 'Начать партию',
+    setupSubtitle: 'Выберите соперника и правила партии',
+    chooseOpponent: 'С кем вы хотите сыграть?',
+    optRobot: 'Игра против робота',
+    optRobotDesc: 'Бросьте вызов компьютерному ИИ с настраиваемой сложностью.',
+    optPerson: 'Игра против человека',
+    optPersonDesc: 'Пригласите друга или найдите случайного игрока вашего уровня.',
+    setupRobotTitle: 'Настройка партии с роботом',
+    selectDifficulty: 'Выберите уровень сложности ИИ',
+    diffNoviceName: 'Новичок (初級)',
+    diffNoviceDesc: '~1000 ELO · Мягкая игра, отлично для начинающих',
+    diffApprenticeName: 'Ученик (中級)',
+    diffApprenticeDesc: '~1250 ELO · Уверенная тактическая игра и защита',
+    diffTacticianName: 'Тактик (上級)',
+    diffTacticianDesc: '~1500 ELO · Острые атаки и хитрые сбросы фигур',
+    diffMasterName: 'Мастер (有段者)',
+    diffMasterDesc: '~1750 ELO · Глубокий перебор и беспощадный расчёт',
+    selectSide: 'Выберите сторону',
+    sideSenteLabel: '☗ Сэнтэ (первый / чёрные)',
+    sideRandomLabel: '🎲 Случайная сторона',
+    sideGoteLabel: '☖ Готэ (второй / белые)',
+    btnStartRobotMatch: '⚔️ Начать партию с роботом',
+    btnBack: '◀ Назад',
+
+    // Person Match Setup
+    setupPersonTitle: 'Игра против человека',
+    optInviteFriend: 'Пригласить друга / За одним экраном',
+    optInviteFriendDesc: 'Играйте на одном экране по очереди или отправьте другу ссылку на партию.',
+    optRandomOpponent: 'Случайный соперник',
+    optRandomOpponentDesc: 'Мгновенный подбор игрока по вашему рейтингу из очереди.',
+    roomLinkTitle: 'Ссылка на партию:',
+    btnCopyLink: '📋 Копировать ссылку',
+    linkCopied: 'Скопировано в буфер обмена!',
+    btnStartFriendMatch: '▶ Начать партию с другом (за одним ПК)',
+    btnFindRandomOpponent: '🔍 Найти случайного соперника',
+
+    // Matchmaking Radar
+    radarSearching: 'Поиск соперника рядом с вашим рейтингом...',
+    radarScanning: 'Сканирование активных комнат сёги...',
+    radarFound: '⚔️ Соперник найден!',
+    radarStarting: 'Партия начнётся через 2 секунды...',
+    btnCancelSearch: 'Отменить поиск',
+
+    // History replay
+    historyReplayTitle: 'История ходов и просмотр',
+    btnFirstMove: '⏮ Начало',
+    btnPrevMove: '◀ Назад',
+    btnNextMove: '▶ Вперёд',
+    btnLatestMove: '⏭ Последний',
+    viewingMove: 'Просмотр хода',
+
+    // Onboarding / Registration Gate
+    onboardBadge: 'Добро пожаловать в Shogi Web',
+    onboardTitle: 'Создайте профиль игрока',
+    onboardSubtitle: 'Войдите через Google, чтобы сохранить свой рейтинг, ранг и пройти интерактивное обучение.',
+    onboardChooseLang: 'Выберите язык / Language / 言語',
+    onboardGoogleBtn: 'Войти через Google',
+    onboardOr: 'или создайте локальный профиль',
+    onboardGoogleModalTitle: 'Вход через Google',
+    onboardGoogleModalSub: 'Укажите данные вашего Google-аккаунта для создания профиля',
+    onboardEmailLabel: 'Google Email',
+    onboardNameLabel: 'Имя игрока (в профиле)',
+    onboardAvatarLabel: 'Выберите эмблему',
+    onboardCreateProfileBtn: 'Создать профиль и начать обучение →',
+    onboardStartTutorial: 'Зарегистрироваться и начать обучение →',
+    onboardTutorialPrompt: 'Сразу после регистрации начнётся обучение на выбранном языке!',
+    btnFinishTutorial: '⚔️ Завершить обучение и играть'
   }
 };
 
@@ -681,7 +912,7 @@ function getLanguage() {
 }
 
 function setLanguage(lang) {
-  if (lang !== 'en' && lang !== 'ja') lang = 'en';
+  if (!['en', 'ja', 'ru'].includes(lang)) lang = 'en';
   currentLang = lang;
   try {
     localStorage.setItem('shogi_language', lang);
@@ -760,7 +991,7 @@ class AccountManager {
     try {
       localStorage.setItem('shogi_accounts', JSON.stringify(this.accounts));
       if (this.currentUser) {
-        localStorage.setItem('shogi_current_user', this.currentUser.username);
+        localStorage.setItem('shogi_current_user', this.currentUser.accountKey || this.currentUser.username);
       } else {
         localStorage.removeItem('shogi_current_user');
       }
@@ -779,7 +1010,7 @@ class AccountManager {
     return this.currentUser;
   }
 
-  register(username, password) {
+  register(username, password, extra = {}) {
     username = (username || '').trim();
     if (!username || username.length < 2) {
       return { success: false, error: 'Username must be at least 2 characters long.' };
@@ -791,11 +1022,15 @@ class AccountManager {
     const newUser = {
       username,
       password: password || '1234',
+      email: extra.email || '',
+      avatar: extra.avatar || '将',
+      provider: extra.provider || 'local',
       rating: 1200,
       peakRating: 1200,
       wins: 0,
       losses: 0,
       draws: 0,
+      tutorialCompleted: false,
       createdAt: new Date().toISOString()
     };
 
@@ -807,6 +1042,69 @@ class AccountManager {
     this.syncToServer(newUser);
 
     return { success: true, user: newUser };
+  }
+
+  loginWithGoogle({ email, name, avatar }) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanName = (name || '').trim();
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      return { success: false, error: 'Please enter a valid Google email address.' };
+    }
+    if (!cleanName || cleanName.length < 2) {
+      return { success: false, error: 'Display name must be at least 2 characters long.' };
+    }
+
+    // Check if an account with this Google email already exists
+    const existing = Object.values(this.accounts).find(
+      acc => acc.provider === 'google' && acc.email && acc.email.toLowerCase() === cleanEmail
+    );
+    if (existing) {
+      existing.username = cleanName;
+      if (avatar) existing.avatar = avatar;
+      this.currentUser = existing;
+      this.saveAccounts();
+      return { success: true, user: existing, isNew: false };
+    }
+
+    // Ensure unique username key
+    let key = cleanName;
+    if (this.accounts[key]) {
+      key = `${cleanName}_${Math.floor(100 + Math.random() * 900)}`;
+    }
+
+    const newUser = {
+      username: cleanName,
+      accountKey: key,
+      password: '',
+      email: cleanEmail,
+      avatar: avatar || '将',
+      provider: 'google',
+      rating: 1200,
+      peakRating: 1200,
+      wins: 0,
+      losses: 0,
+      draws: 0,
+      tutorialCompleted: false,
+      createdAt: new Date().toISOString()
+    };
+
+    this.accounts[key] = newUser;
+    this.currentUser = newUser;
+    try {
+      localStorage.setItem('shogi_google_user', JSON.stringify({ email: cleanEmail, name: cleanName, avatar: newUser.avatar }));
+      localStorage.setItem('shogi_current_user', key);
+    } catch (e) {}
+    this.saveAccounts();
+    this.syncToServer(newUser);
+
+    return { success: true, user: newUser, isNew: true };
+  }
+
+  markTutorialCompleted() {
+    if (this.currentUser) {
+      this.currentUser.tutorialCompleted = true;
+      this.saveAccounts();
+    }
   }
 
   login(username, password) {
@@ -833,18 +1131,18 @@ class AccountManager {
   getRank(rating = null) {
     const r = rating !== null ? rating : (this.currentUser ? this.currentUser.rating : 1200);
 
-    if (r < 1000) return { titleEn: '15-Kyu', titleJa: '15級', badge: 'Novice' };
-    if (r < 1100) return { titleEn: '10-Kyu', titleJa: '10級', badge: 'Apprentice' };
-    if (r < 1200) return { titleEn: '8-Kyu', titleJa: '8級', badge: 'Junior' };
-    if (r < 1300) return { titleEn: '6-Kyu', titleJa: '6級', badge: 'Intermediate' };
-    if (r < 1400) return { titleEn: '4-Kyu', titleJa: '4級', badge: 'Tactician' };
-    if (r < 1500) return { titleEn: '2-Kyu', titleJa: '2級', badge: 'Senior' };
-    if (r < 1600) return { titleEn: '1-Kyu', titleJa: '1級', badge: 'Expert' };
-    if (r < 1700) return { titleEn: '1-Dan (Shodan)', titleJa: '初段', badge: 'Dan Master' };
-    if (r < 1800) return { titleEn: '2-Dan', titleJa: '二段', badge: 'Dan Master' };
-    if (r < 1900) return { titleEn: '3-Dan', titleJa: '三段', badge: 'High Master' };
-    if (r < 2000) return { titleEn: '4-Dan', titleJa: '四段', badge: 'High Master' };
-    return { titleEn: '5-Dan Grandmaster', titleJa: '五段 (師範)', badge: 'Grandmaster' };
+    if (r < 1000) return { titleEn: '15-Kyu', titleJa: '15級', titleRu: '15-й кю', badge: 'Novice' };
+    if (r < 1100) return { titleEn: '10-Kyu', titleJa: '10級', titleRu: '10-й кю', badge: 'Apprentice' };
+    if (r < 1200) return { titleEn: '8-Kyu', titleJa: '8級', titleRu: '8-й кю', badge: 'Junior' };
+    if (r < 1300) return { titleEn: '6-Kyu', titleJa: '6級', titleRu: '6-й кю', badge: 'Intermediate' };
+    if (r < 1400) return { titleEn: '4-Kyu', titleJa: '4級', titleRu: '4-й кю', badge: 'Tactician' };
+    if (r < 1500) return { titleEn: '2-Kyu', titleJa: '2級', titleRu: '2-й кю', badge: 'Senior' };
+    if (r < 1600) return { titleEn: '1-Kyu', titleJa: '1級', titleRu: '1-й кю', badge: 'Expert' };
+    if (r < 1700) return { titleEn: '1-Dan (Shodan)', titleJa: '初段', titleRu: '1-й дан (Сёдан)', badge: 'Dan Master' };
+    if (r < 1800) return { titleEn: '2-Dan', titleJa: '二段', titleRu: '2-й дан', badge: 'Dan Master' };
+    if (r < 1900) return { titleEn: '3-Dan', titleJa: '三段', titleRu: '3-й дан', badge: 'High Master' };
+    if (r < 2000) return { titleEn: '4-Dan', titleJa: '四段', titleRu: '4-й дан', badge: 'High Master' };
+    return { titleEn: '5-Dan Grandmaster', titleJa: '五段 (師範)', titleRu: '5-й дан Гроссмейстер', badge: 'Grandmaster' };
   }
 
   // Update ELO rating after a game:
@@ -2124,109 +2422,484 @@ const TSUMESHOGI_PUZZLES = [
 
 // --- Begin: js/engine/tutorial.js ---
 /**
- * Shogi Web - Interactive Tutorial Lessons
+ * Shogi Web - Interactive Multi-Language Tutorial Lessons
+ * Supports English (en), Japanese (ja), and Russian (ru)
+ * Includes crafted mini-board movement diagrams and live interactive 9x9 board setups.
  */
+
+
+
+function emptyBoard() {
+  return Array.from({ length: 9 }, () => Array(9).fill(null));
+}
+
+function emptyHands() {
+  return {
+    [SENTE]: { R: 0, B: 0, G: 0, S: 0, N: 0, L: 0, P: 0 },
+    [GOTE]: { R: 0, B: 0, G: 0, S: 0, N: 0, L: 0, P: 0 }
+  };
+}
+
+// Helper to render a 3x3 or 5x5 mini movement grid with a crafted pentagonal koma
+function diagram(kanji, cells, promoted = false, size = 3) {
+  // cells: array of strings of length size*size: '.' empty, 'X' piece, 'o' step dot, 's' slide/arrow, 'j' jump
+  const cls = size === 5 ? 'tut-mini-grid grid-5' : 'tut-mini-grid';
+  const komaCls = promoted ? 'tut-koma promoted' : 'tut-koma';
+  let html = `<div class="${cls}">`;
+  for (let i = 0; i < size * size; i++) {
+    const c = cells[i] || '.';
+    if (c === 'X') {
+      html += `<div class="tut-cell center"><div class="${komaCls}"><span>${kanji}</span></div></div>`;
+    } else if (c === 'o') {
+      html += `<div class="tut-cell"><span class="tut-dot"></span></div>`;
+    } else if (c === 's') {
+      html += `<div class="tut-cell"><span class="tut-slide"></span></div>`;
+    } else if (c === 'j') {
+      html += `<div class="tut-cell"><span class="tut-jump">★</span></div>`;
+    } else {
+      html += `<div class="tut-cell"></div>`;
+    }
+  }
+  html += `</div>`;
+  return html;
+}
 
 const TUTORIAL_LESSONS = [
   {
     id: 'intro',
-    title: 'Introduction to Shogi (将棋)',
-    subtitle: 'The Game of Generals',
-    badge: 'Basics',
-    content: `
-      <p><strong>Shogi</strong> (literally "General's Chess") is Japan's historic two-player strategy board game. Played on a <strong>9x9 grid</strong> with 40 wedge-shaped pieces, it features two distinct players:</p>
-      <ul>
-        <li><strong>Sente (先手 / Black)</strong>: Moves first, starts from the bottom (ranks 7-9).</li>
-        <li><strong>Gote (後手 / White)</strong>: Moves second, starts from the top (ranks 1-3).</li>
-      </ul>
-      <p>Pieces are distinguished not by color, but by the direction their point faces (towards the opponent) and the Kanji characters inscribed upon them.</p>
+    badge_en: 'Basics',
+    badge_ja: '基本',
+    badge_ru: 'Основы',
+    title_en: 'Introduction to Shogi (将棋)',
+    title_ja: '将棋入門 — 盤面と基本ルール',
+    title_ru: 'Введение в Сёги (将棋)',
+    subtitle_en: 'The Game of Generals',
+    subtitle_ja: '9×9の盤上で繰り広げる知略戦',
+    subtitle_ru: 'Игра генералов на доске 9×9',
+    setupBoard: () => null, // Use standard starting position!
+    content_en: `
+      <div class="tut-hero-banner">
+        <div class="tut-koma large"><span>王将</span></div>
+        <div>
+          <p><strong>Shogi</strong> ("General's Chess") is played on a <strong>9×9 wooden board</strong> with 40 pentagonal wedge-shaped pieces.</p>
+        </div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-side-row">
+          <div class="tut-side-pill sente"><span class="tut-koma mini"><span>王</span></span> <strong>Sente (先手)</strong> — Moves 1st (bottom, pointing UP)</div>
+          <div class="tut-side-pill gote"><span class="tut-koma mini flipped"><span>玉</span></span> <strong>Gote (後手)</strong> — Moves 2nd (top, pointing DOWN)</div>
+        </div>
+      </div>
+      <p class="tut-tip">💡 <strong>Try it on the board!</strong> Click any piece on the bottom rows to see its glowing legal moves.</p>
+    `,
+    content_ja: `
+      <div class="tut-hero-banner">
+        <div class="tut-koma large"><span>王将</span></div>
+        <div>
+          <p><strong>将棋</strong>は<strong>9×9の盤面</strong>と40枚の五角形の駒を使って戦う、日本伝統の頭脳ゲームです。</p>
+        </div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-side-row">
+          <div class="tut-side-pill sente"><span class="tut-koma mini"><span>王</span></span> <strong>先手 (☗)</strong> — 下側・上向き（先に指す）</div>
+          <div class="tut-side-pill gote"><span class="tut-koma mini flipped"><span>玉</span></span> <strong>後手 (☖)</strong> — 上側・下向き（後に指す）</div>
+        </div>
+      </div>
+      <p class="tut-tip">💡 <strong>盤上で試してみよう！</strong> 手前の駒をクリックすると移動できるマスが光ります。</p>
+    `,
+    content_ru: `
+      <div class="tut-hero-banner">
+        <div class="tut-koma large"><span>王将</span></div>
+        <div>
+          <p><strong>Сёги</strong> («шахматы генералов») — японская стратегическая игра на деревянной доске <strong>9×9</strong> с 40 пятиугольными фигурами.</p>
+        </div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-side-row">
+          <div class="tut-side-pill sente"><span class="tut-koma mini"><span>王</span></span> <strong>Сэнтэ (先手)</strong> — ходит 1-м (снизу, остриём ВВЕРХ)</div>
+          <div class="tut-side-pill gote"><span class="tut-koma mini flipped"><span>玉</span></span> <strong>Готэ (後手)</strong> — ходит 2-м (сверху, остриём ВНИЗ)</div>
+        </div>
+      </div>
+      <p class="tut-tip">💡 <strong>Попробуйте прямо сейчас!</strong> Нажмите на любую свою фигуру на доске, чтобы увидеть доступные ходы.</p>
     `
   },
   {
     id: 'pieces_basics',
-    title: 'The Basic Pieces',
-    subtitle: 'Pawns, Lances, and Knights',
-    badge: 'Movement',
-    content: `
-      <div class="tutorial-piece-card">
-        <h4>歩兵 (Pawn - Fuhyo)</h4>
-        <p>Moves <strong>1 square directly forward</strong>. Unlike Western chess, it also <em>captures</em> directly forward!</p>
+    badge_en: 'Movement',
+    badge_ja: '駒の動き',
+    badge_ru: 'Ходы фигур',
+    title_en: 'Pawn, Lance & Knight',
+    title_ja: '歩・香・桂の動き',
+    title_ru: 'Пешка, Копьё и Конь',
+    subtitle_en: 'Forward-Marching Soldiers',
+    subtitle_ja: '前線へ進む基本の駒',
+    subtitle_ru: 'Фигуры, идущие вперёд',
+    setupBoard: () => {
+      const b = emptyBoard();
+      b[8][4] = { type: KING, owner: SENTE };
+      b[0][4] = { type: KING, owner: GOTE };
+      b[5][2] = { type: PAWN, owner: SENTE };
+      b[6][4] = { type: LANCE, owner: SENTE };
+      b[6][6] = { type: KNIGHT, owner: SENTE };
+      b[3][2] = { type: PAWN, owner: GOTE };
+      return { board: b, hands: emptyHands(), turn: SENTE };
+    },
+    content_en: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('歩', ['.', 'o', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>Pawn (歩兵 · Fuhyo)</h4>
+            <p>Moves and captures <strong>1 square straight forward</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('香', ['.', 's', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>Lance (香車 · Kyosha)</h4>
+            <p>Slides forward <strong>any number of empty squares</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('桂', ['.', 'j', '.', 'j', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], false, 5)}
+          <div class="tut-piece-info">
+            <h4>Knight (桂馬 · Keima)</h4>
+            <p>Jumps <strong>2 forward + 1 sideways</strong>. Can leap over pieces!</p>
+          </div>
+        </div>
       </div>
-      <div class="tutorial-piece-card">
-        <h4>香車 (Lance - Kyosha)</h4>
-        <p>Moves forward <strong>any number of empty squares</strong> along its file. Known as the "spear", it cannot move backward or sideways.</p>
+      <p class="tut-tip">💡 Click the <strong>歩, 香, 桂</strong> pieces on the board to test their moves!</p>
+    `,
+    content_ja: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('歩', ['.', 'o', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>歩兵 (ふ)</h4>
+            <p><strong>前に1マス</strong>だけ進めます（取る時も同じ）。</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('香', ['.', 's', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>香車 (きょう)</h4>
+            <p><strong>前へまっすぐ何マスでも</strong>進めます（戻れません）。</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('桂', ['.', 'j', '.', 'j', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], false, 5)}
+          <div class="tut-piece-info">
+            <h4>桂馬 (けい)</h4>
+            <p><strong>前2マス＋左右1マス</strong>に駒を飛び越えて跳ねます。</p>
+          </div>
+        </div>
       </div>
-      <div class="tutorial-piece-card">
-        <h4>桂馬 (Knight - Keima)</h4>
-        <p>Moves <strong>2 squares forward and 1 square sideways</strong> (an L-shape). It is the <em>only</em> piece that can jump over other pieces, but only forwards!</p>
+      <p class="tut-tip">💡 盤上の <strong>歩・香・桂</strong> をクリックして動きを確認しよう！</p>
+    `,
+    content_ru: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('歩', ['.', 'o', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>Пешка (歩兵 · Фухё)</h4>
+            <p>Ходит и бьёт на <strong>1 клетку строго вперёд</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('香', ['.', 's', '.', '.', 'X', '.', '.', '.', '.'])}
+          <div class="tut-piece-info">
+            <h4>Копьё (香車 · Кёся)</h4>
+            <p>Скользит вперёд на <strong>любое число свободных клеток</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('桂', ['.', 'j', '.', 'j', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], false, 5)}
+          <div class="tut-piece-info">
+            <h4>Конь (桂馬 · Кэйма)</h4>
+            <p>Прыгает на <strong>2 вперёд и 1 вбок</strong> (через фигуры).</p>
+          </div>
+        </div>
       </div>
+      <p class="tut-tip">💡 Нажмите на <strong>歩, 香, 桂</strong> на доске, чтобы проверить их ходы!</p>
     `
   },
   {
     id: 'pieces_generals',
-    title: 'The Generals & The King',
-    subtitle: 'Silver, Gold, and Royal Leadership',
-    badge: 'Movement',
-    content: `
-      <div class="tutorial-piece-card">
-        <h4>銀将 (Silver General - Gin)</h4>
-        <p>Moves <strong>1 square forward or 1 square diagonally</strong> (5 possible directions). Its diagonal retreat makes it agile in both attack and defense.</p>
+    badge_en: 'Movement',
+    badge_ja: '金・銀・王',
+    badge_ru: 'Генералы и Король',
+    title_en: 'Silver, Gold & King',
+    title_ja: '銀将・金将・王将',
+    title_ru: 'Серебро, Золото и Король',
+    subtitle_en: 'Royal Guard & Attackers',
+    subtitle_ja: '攻守の要となる将たち',
+    subtitle_ru: 'Защита и решающий удар',
+    setupBoard: () => {
+      const b = emptyBoard();
+      b[8][4] = { type: KING, owner: SENTE };
+      b[0][4] = { type: KING, owner: GOTE };
+      b[5][2] = { type: SILVER, owner: SENTE };
+      b[5][4] = { type: GOLD, owner: SENTE };
+      b[5][6] = { type: KING, owner: SENTE };
+      return { board: b, hands: emptyHands(), turn: SENTE };
+    },
+    content_en: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('銀', ['o', 'o', 'o', '.', 'X', '.', 'o', '.', 'o'])}
+          <div class="tut-piece-info">
+            <h4>Silver General (銀将 · Gin)</h4>
+            <p><strong>5 directions:</strong> 1 step forward or any diagonal.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('金', ['o', 'o', 'o', 'o', 'X', 'o', '.', 'o', '.'])}
+          <div class="tut-piece-info">
+            <h4>Gold General (金将 · Kin)</h4>
+            <p><strong>6 directions:</strong> All orthogonal + forward diagonals.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('王', ['o', 'o', 'o', 'o', 'X', 'o', 'o', 'o', 'o'])}
+          <div class="tut-piece-info">
+            <h4>King (王将 · Osho)</h4>
+            <p><strong>8 directions:</strong> 1 step anywhere. Protect at all costs!</p>
+          </div>
+        </div>
       </div>
-      <div class="tutorial-piece-card">
-        <h4>金将 (Gold General - Kin)</h4>
-        <p>Moves <strong>1 square orthogonally (forward, back, left, right) or 1 square forward-diagonally</strong> (6 directions). The ultimate defensive piece and mating finisher!</p>
+    `,
+    content_ja: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('銀', ['o', 'o', 'o', '.', 'X', '.', 'o', '.', 'o'])}
+          <div class="tut-piece-info">
+            <h4>銀将 (ぎん)</h4>
+            <p><strong>前と斜め4方向</strong>の計5マスに動けます。</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('金', ['o', 'o', 'o', 'o', 'X', 'o', '.', 'o', '.'])}
+          <div class="tut-piece-info">
+            <h4>金将 (きん)</h4>
+            <p><strong>斜め後ろ以外</strong>の6方向に動けます。守りの要！</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('王', ['o', 'o', 'o', 'o', 'X', 'o', 'o', 'o', 'o'])}
+          <div class="tut-piece-info">
+            <h4>王将・玉将 (おう)</h4>
+            <p><strong>周囲8方向すべて</strong>に1マス動けます。詰まされたら負け。</p>
+          </div>
+        </div>
       </div>
-      <div class="tutorial-piece-card">
-        <h4>王将 / 玉将 (King - Osho / Gyoku)</h4>
-        <p>Moves <strong>1 square in any of the 8 directions</strong>. Protect your King at all costs—if it is checkmated, the game is lost.</p>
+    `,
+    content_ru: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('銀', ['o', 'o', 'o', '.', 'X', '.', 'o', '.', 'o'])}
+          <div class="tut-piece-info">
+            <h4>Серебряный генерал (銀将)</h4>
+            <p><strong>5 направлений:</strong> 1 шаг вперёд или по любой диагонали.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('金', ['o', 'o', 'o', 'o', 'X', 'o', '.', 'o', '.'])}
+          <div class="tut-piece-info">
+            <h4>Золотой генерал (金将)</h4>
+            <p><strong>6 направлений:</strong> все прямые + вперёд по диагонали.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('王', ['o', 'o', 'o', 'o', 'X', 'o', 'o', 'o', 'o'])}
+          <div class="tut-piece-info">
+            <h4>Король (王将 · Осё)</h4>
+            <p><strong>8 направлений:</strong> 1 шаг в любую сторону.</p>
+          </div>
+        </div>
       </div>
     `
   },
   {
     id: 'pieces_major',
-    title: 'The Major Pieces',
-    subtitle: 'Rooks and Bishops',
-    badge: 'Major Pieces',
-    content: `
-      <div class="tutorial-piece-card">
-        <h4>飛車 (Rook - Hisha)</h4>
-        <p>Moves <strong>any number of empty squares horizontally or vertically</strong>. The most powerful attacking piece on the board.</p>
+    badge_en: 'Major Pieces',
+    badge_ja: '大駒',
+    badge_ru: 'Старшие фигуры',
+    title_en: 'Rook & Bishop',
+    title_ja: '飛車と角行（大駒）',
+    title_ru: 'Ладья и Слон',
+    subtitle_en: 'Long-Range Powerhouses',
+    subtitle_ja: '盤面を制圧する最強の駒',
+    subtitle_ru: 'Дальнобойная мощь',
+    setupBoard: () => {
+      const b = emptyBoard();
+      b[8][4] = { type: KING, owner: SENTE };
+      b[0][4] = { type: KING, owner: GOTE };
+      b[5][3] = { type: ROOK, owner: SENTE };
+      b[5][5] = { type: BISHOP, owner: SENTE };
+      return { board: b, hands: emptyHands(), turn: SENTE };
+    },
+    content_en: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('飛', ['.', 's', '.', 's', 'X', 's', '.', 's', '.'])}
+          <div class="tut-piece-info">
+            <h4>Rook (飛車 · Hisha)</h4>
+            <p>Slides <strong>any distance horizontally or vertically</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('角', ['s', '.', 's', '.', 'X', '.', 's', '.', 's'])}
+          <div class="tut-piece-info">
+            <h4>Bishop (角行 · Kaku)</h4>
+            <p>Slides <strong>any distance diagonally</strong> in all 4 directions.</p>
+          </div>
+        </div>
       </div>
-      <div class="tutorial-piece-card">
-        <h4>角行 (Bishop - Kaku)</h4>
-        <p>Moves <strong>any number of empty squares diagonally</strong> in any of the 4 diagonal directions.</p>
+      <p class="tut-tip">💡 Click <strong>飛</strong> and <strong>角</strong> on the board to see their long-range lines!</p>
+    `,
+    content_ja: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('飛', ['.', 's', '.', 's', 'X', 's', '.', 's', '.'])}
+          <div class="tut-piece-info">
+            <h4>飛車 (ひしゃ)</h4>
+            <p><strong>縦・横に何マスでも</strong>進める最強の攻撃駒です。</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('角', ['s', '.', 's', '.', 'X', '.', 's', '.', 's'])}
+          <div class="tut-piece-info">
+            <h4>角行 (かく)</h4>
+            <p><strong>斜め4方向に何マスでも</strong>進めます。</p>
+          </div>
+        </div>
       </div>
+      <p class="tut-tip">💡 盤上の <strong>飛車</strong> と <strong>角行</strong> をクリックして射程を見てみよう！</p>
+    `,
+    content_ru: `
+      <div class="tut-piece-grid">
+        <div class="tut-piece-card">
+          ${diagram('飛', ['.', 's', '.', 's', 'X', 's', '.', 's', '.'])}
+          <div class="tut-piece-info">
+            <h4>Ладья (飛車 · Хися)</h4>
+            <p>Скользит на <strong>любое расстояние по вертикали и горизонтали</strong>.</p>
+          </div>
+        </div>
+        <div class="tut-piece-card">
+          ${diagram('角', ['s', '.', 's', '.', 'X', '.', 's', '.', 's'])}
+          <div class="tut-piece-info">
+            <h4>Слон (角行 · Каку)</h4>
+            <p>Скользит на <strong>любое расстояние по всем 4 диагоналям</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <p class="tut-tip">💡 Нажмите на <strong>飛</strong> и <strong>角</strong> на доске, чтобы увидеть их линии атаки!</p>
     `
   },
   {
     id: 'promotions',
-    title: 'Promotion (成る - Naru)',
-    subtitle: 'Ascending into Greater Power',
-    badge: 'Key Rule',
-    content: `
-      <p>When a piece enters, moves within, or exits the <strong>Promotion Zone</strong> (the furthest 3 ranks from your side):</p>
-      <ul>
-        <li><strong>Rook → Dragon (竜王)</strong>: Gains King's 1-step diagonal moves in addition to full sliding!</li>
-        <li><strong>Bishop → Horse (竜馬)</strong>: Gains King's 1-step orthogonal moves in addition to diagonal sliding!</li>
-        <li><strong>Pawn, Lance, Knight, Silver → Move like Gold General!</strong> (Tokin, Promoted Lance, Promoted Knight, Promoted Silver).</li>
-        <li><strong>Gold & King</strong> never promote.</li>
-      </ul>
-      <p class="highlight-tip"><em>Tip:</em> Pawns and Lances reaching the final rank, and Knights reaching the final two ranks, <strong>must promote</strong> because they would have no legal moves remaining.</p>
+    badge_en: 'Key Rule',
+    badge_ja: '成り',
+    badge_ru: 'Превращение',
+    title_en: 'Promotion (成る - Naru)',
+    title_ja: '駒の成り（パワーアップ）',
+    title_ru: 'Превращение фигур (成る)',
+    subtitle_en: 'Entering the Enemy Camp',
+    subtitle_ja: '敵陣3段目で駒が裏返る！',
+    subtitle_ru: 'Усиление в зоне соперника',
+    setupBoard: () => {
+      const b = emptyBoard();
+      b[8][4] = { type: KING, owner: SENTE };
+      b[0][4] = { type: KING, owner: GOTE };
+      b[3][2] = { type: PAWN, owner: SENTE };
+      b[3][6] = { type: ROOK, owner: SENTE };
+      b[1][7] = { type: BISHOP, owner: SENTE };
+      return { board: b, hands: emptyHands(), turn: SENTE };
+    },
+    content_en: `
+      <p>The furthest <strong>3 ranks</strong> (rows 1–3) are your <strong>Promotion Zone</strong>. Moving into, within, or out of it lets you flip your piece!</p>
+      <div class="tut-promo-list">
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>飛</span></span> → <span class="tut-koma mini promoted"><span>竜</span></span> <strong>Dragon</strong> (+King diagonals)</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>角</span></span> → <span class="tut-koma mini promoted"><span>馬</span></span> <strong>Horse</strong> (+King orthogonals)</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>歩</span></span> → <span class="tut-koma mini promoted"><span>と</span></span> <strong>Tokin / Silver / Knight / Lance</strong> → Move like <strong>Gold</strong>!</div>
+      </div>
+      <p class="tut-tip">💡 Move the <strong>歩</strong> or <strong>飛</strong> into rank 1–3 on the board to see the Promotion popup!</p>
+    `,
+    content_ja: `
+      <p>相手側の奥3段（1〜3段目）は<strong>敵陣</strong>です。敵陣に入る・中で動く・出る時に駒を裏返して<strong>成る</strong>ことができます！</p>
+      <div class="tut-promo-list">
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>飛</span></span> → <span class="tut-koma mini promoted"><span>竜</span></span> <strong>竜王</strong>（飛車＋斜め1マス）</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>角</span></span> → <span class="tut-koma mini promoted"><span>馬</span></span> <strong>竜馬</strong>（角＋縦横1マス）</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>歩</span></span> → <span class="tut-koma mini promoted"><span>と</span></span> <strong>と金・成銀・成桂・成香</strong> → <strong>金将</strong>と同じ動きに！</div>
+      </div>
+      <p class="tut-tip">💡 盤上の <strong>歩</strong> や <strong>飛</strong> を敵陣に動かして「成る」を体験しよう！</p>
+    `,
+    content_ru: `
+      <p>Дальние <strong>3 ряда</strong> (ряды 1–3) — ваша <strong>Зона превращения</strong>. Войдя в неё, двигаясь внутри или выходя из неё, можно перевернуть фигуру!</p>
+      <div class="tut-promo-list">
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>飛</span></span> → <span class="tut-koma mini promoted"><span>竜</span></span> <strong>Дракон</strong> (+шаг по диагонали)</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>角</span></span> → <span class="tut-koma mini promoted"><span>馬</span></span> <strong>Лошадь</strong> (+шаг по прямой)</div>
+        <div class="tut-promo-pair"><span class="tut-koma mini"><span>歩</span></span> → <span class="tut-koma mini promoted"><span>と</span></span> <strong>Токин / Серебро / Конь / Копьё</strong> → ходят как <strong>Золото</strong>!</div>
+      </div>
+      <p class="tut-tip">💡 Сделайте ход <strong>歩</strong> или <strong>飛</strong> в верхние 3 ряда, чтобы увидеть окно превращения!</p>
     `
   },
   {
     id: 'drops',
-    title: 'Piece Drops (打ち - Uchi)',
-    subtitle: 'Shogi’s Unique & Dynamic Core',
-    badge: 'Crucial Rule',
-    content: `
-      <p>Unlike Western chess, <strong>captured pieces are never lost</strong>! They sit on your piece stand (<em>Komadai</em>) and on any turn, you may <strong>drop</strong> a piece onto any empty square as your move!</p>
-      <h4>3 Essential Drop Restrictions:</h4>
-      <ol>
-        <li><strong>No dead-end drops</strong>: You cannot drop a Pawn/Lance on the last rank, or a Knight on the last two ranks.</li>
-        <li><strong>Nifu (二歩 - Two Pawns)</strong>: You cannot drop a Pawn into a file (column) that already contains your unpromoted friendly pawn!</li>
-        <li><strong>Uchifuzume (打ち歩詰め)</strong>: You cannot deliver instant checkmate with a dropped Pawn. (Checking is legal, but checkmate by drop is a foul).</li>
-      </ol>
+    badge_en: 'Crucial Rule',
+    badge_ja: '持ち駒・打ち',
+    badge_ru: 'Сброс фигур',
+    title_en: 'Piece Drops (打ち - Uchi)',
+    title_ja: '持ち駒を打つ（将棋最大の醍醐味）',
+    title_ru: 'Сброс фигур (打ち - Ути)',
+    subtitle_en: 'Captured Allies Return!',
+    subtitle_ja: '取った駒は自分の戦力になる',
+    subtitle_ru: 'Захваченные фигуры возвращаются в бой!',
+    setupBoard: () => {
+      const b = emptyBoard();
+      b[8][4] = { type: KING, owner: SENTE };
+      b[0][4] = { type: KING, owner: GOTE };
+      b[6][4] = { type: PAWN, owner: SENTE };
+      const hands = emptyHands();
+      hands[SENTE].G = 1;
+      hands[SENTE].P = 1;
+      return { board: b, hands, turn: SENTE };
+    },
+    content_en: `
+      <p>Captured pieces sit on your <strong>Komadai (stand)</strong> and can be <strong>dropped</strong> onto any empty square as your turn!</p>
+      <div class="tut-card">
+        <strong>3 Drop Rules:</strong>
+        <ol class="tut-ol">
+          <li><strong>No dead-end drops</strong>: Pawn/Lance cannot drop on rank 1; Knight cannot drop on ranks 1–2.</li>
+          <li><strong>Nifu (二歩)</strong>: Cannot drop a Pawn on a file that already has your unpromoted Pawn.</li>
+          <li><strong>Uchifuzume</strong>: Cannot deliver immediate checkmate with a dropped Pawn.</li>
+        </ol>
+      </div>
+      <p class="tut-tip">💡 Click the <strong>金</strong> or <strong>歩</strong> on your Komadai stand below the board and drop it onto the board!</p>
+    `,
+    content_ja: `
+      <p>相手から取った駒は<strong>駒台（持ち駒）</strong>に置かれ、自分の手番で盤上の好きな空きマスに<strong>打つ</strong>ことができます！</p>
+      <div class="tut-card">
+        <strong>打ち駒の3つのルール:</strong>
+        <ol class="tut-ol">
+          <li><strong>行き所のない駒</strong>：動けない場所（1段目の歩・香、1〜2段目の桂）には打てません。</li>
+          <li><strong>二歩 (にふ)</strong>：自分の「歩」がすでにある縦の列には歩を打てません。</li>
+          <li><strong>打ち歩詰め</strong>：歩を打って即座に詰みにすることは反則です。</li>
+        </ol>
+      </div>
+      <p class="tut-tip">💡 盤下の駒台にある <strong>金</strong> や <strong>歩</strong> をクリックして盤上に打ってみよう！</p>
+    `,
+    content_ru: `
+      <p>Захваченные фигуры попадают на ваш <strong>Комадай (подставку)</strong>, и в свой ход вы можете <strong>сбросить</strong> их на любую свободную клетку!</p>
+      <div class="tut-card">
+        <strong>3 правила сброса:</strong>
+        <ol class="tut-ol">
+          <li><strong>Нет тупиковых сбросов</strong>: Пешку/Копьё нельзя сбросить на 1-й ряд, Коня — на 1–2-й ряды.</li>
+          <li><strong>Нифу (二歩)</strong>: Нельзя сбрасывать Пешку на вертикаль, где уже стоит ваша непревращённая Пешка.</li>
+          <li><strong>Утифудзумэ</strong>: Нельзя объявлять мгновенный мат сбросом Пешки.</li>
+        </ol>
+      </div>
+      <p class="tut-tip">💡 Нажмите на <strong>金</strong> или <strong>歩</strong> на подставке под доской и поставьте её на поле!</p>
     `
   }
 ];
@@ -3174,6 +3847,7 @@ class ShogiApp {
     this.bindEvents();
     this.initThemeAndStyles();
     this.initAccountsUI();
+    this.initOnboardingGate();
     this.updateUserDisplay();
     this.startNewGame();
 
@@ -3192,6 +3866,9 @@ class ShogiApp {
     } else {
       this.showGameView();
     }
+
+    // Require registration + Google sign-in for first-time visitors
+    this.checkFirstTimeVisitor();
 
     // Language change listener
     window.addEventListener('shogi_lang_changed', () => {
@@ -3421,11 +4098,13 @@ class ShogiApp {
       flipBtn.addEventListener('click', () => this.ui.toggleFlip());
     }
 
-    // Language toggle in header
+    // Language toggle in header (cycles EN -> JA -> RU)
     const langToggleBtn = document.getElementById('lang-toggle-btn');
     if (langToggleBtn) {
       langToggleBtn.addEventListener('click', () => {
-        const nextLang = getLanguage() === 'en' ? 'ja' : 'en';
+        const order = ['en', 'ja', 'ru'];
+        const idx = order.indexOf(getLanguage());
+        const nextLang = order[(idx + 1) % order.length];
         setLanguage(nextLang);
         const modalSelect = document.getElementById('setting-language-select');
         if (modalSelect) modalSelect.value = nextLang;
@@ -3610,6 +4289,13 @@ class ShogiApp {
     if (nextLessonBtn) {
       nextLessonBtn.addEventListener('click', () => this.changeLesson(1));
     }
+    const finishLessonBtn = document.getElementById('lesson-finish-btn');
+    if (finishLessonBtn) {
+      finishLessonBtn.addEventListener('click', () => {
+        this.accountManager.markTutorialCompleted();
+        this.showLandingView();
+      });
+    }
   }
 
   // --- Landing View & Game View Toggling ---
@@ -3630,16 +4316,123 @@ class ShogiApp {
     });
   }
 
+  getLocalizedRankTitle(rank) {
+    const lang = getLanguage();
+    if (lang === 'ja') return rank.titleJa;
+    if (lang === 'ru') return rank.titleRu || rank.titleEn;
+    return rank.titleEn;
+  }
+
+  checkFirstTimeVisitor() {
+    let onboarded = false;
+    try {
+      onboarded = localStorage.getItem('shogi_onboarded') === 'true';
+    } catch (e) {}
+
+    if (!this.accountManager.isLoggedIn() && !onboarded) {
+      const gate = document.getElementById('onboarding-gate');
+      if (gate) gate.classList.remove('hidden');
+    }
+  }
+
+  initOnboardingGate() {
+    const gate = document.getElementById('onboarding-gate');
+    const googleModal = document.getElementById('google-signin-modal');
+    const googleBtn = document.getElementById('onboard-google-btn');
+    const googleCloseBtn = document.getElementById('google-modal-close-btn');
+    const googleForm = document.getElementById('google-profile-form');
+    const localForm = document.getElementById('onboard-local-form');
+    let selectedAvatar = '将';
+
+    // Sync active language pill
+    const syncLangPills = (lang) => {
+      document.querySelectorAll('.onboard-lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+    };
+    syncLangPills(getLanguage());
+
+    document.querySelectorAll('.onboard-lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang || 'en';
+        setLanguage(lang);
+        syncLangPills(lang);
+        const modalSelect = document.getElementById('setting-language-select');
+        if (modalSelect) modalSelect.value = lang;
+      });
+    });
+
+    googleBtn?.addEventListener('click', () => {
+      googleModal?.classList.add('visible');
+    });
+
+    googleCloseBtn?.addEventListener('click', () => {
+      googleModal?.classList.remove('visible');
+    });
+
+    document.querySelectorAll('.avatar-choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-choice-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedAvatar = btn.dataset.avatar || '将';
+      });
+    });
+
+    const completeRegistrationAndStartTutorial = () => {
+      try {
+        localStorage.setItem('shogi_onboarded', 'true');
+      } catch (e) {}
+      googleModal?.classList.remove('visible');
+      gate?.classList.add('hidden');
+      this.updateUserDisplay();
+      this.updateLandingUserDisplay();
+      // Launch interactive tutorial in chosen language
+      this.currentLessonIdx = 0;
+      this.switchMode('tutorial');
+      this.showGameView();
+    };
+
+    googleForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('google-email-input')?.value || '';
+      const name = document.getElementById('google-name-input')?.value || '';
+      const errEl = document.getElementById('google-error-msg');
+      const res = this.accountManager.loginWithGoogle({ email, name, avatar: selectedAvatar });
+      if (res.success) {
+        if (errEl) errEl.classList.add('hidden');
+        completeRegistrationAndStartTutorial();
+      } else if (errEl) {
+        errEl.textContent = res.error;
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    localForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('onboard-username')?.value || '';
+      const password = document.getElementById('onboard-password')?.value || '';
+      const errEl = document.getElementById('onboard-error-msg');
+      const res = this.accountManager.register(username, password);
+      if (res.success) {
+        if (errEl) errEl.classList.add('hidden');
+        completeRegistrationAndStartTutorial();
+      } else if (errEl) {
+        errEl.textContent = res.error;
+        errEl.classList.remove('hidden');
+      }
+    });
+  }
+
   updateLandingUserDisplay() {
     const textEl = document.getElementById('landing-user-text');
     const user = this.accountManager.getCurrentUser();
     if (textEl) {
       if (user) {
         const rank = this.accountManager.getRank(user.rating);
-        const rankTitle = getLanguage() === 'ja' ? rank.titleJa : rank.titleEn;
-        textEl.innerHTML = `Welcome back, <strong>${user.username}</strong>! Rating: <strong>${user.rating}</strong> (${rankTitle})`;
+        const rankTitle = this.getLocalizedRankTitle(rank);
+        textEl.innerHTML = `${user.avatar || '👤'} <strong>${user.username}</strong> · ${user.rating} (${rankTitle})`;
       } else {
-        textEl.textContent = 'Welcome, Guest! Create an account to track your Dan/Kyu rating.';
+        textEl.textContent = t('accountRequireNotice');
       }
     }
   }
@@ -3932,12 +4725,11 @@ class ShogiApp {
 
       const user = this.accountManager.getCurrentUser();
       const rank = this.accountManager.getRank(user.rating);
-      const isJa = getLanguage() === 'ja';
 
       document.getElementById('profile-username').textContent = user.username;
       document.getElementById('profile-rating').textContent = user.rating;
       document.getElementById('profile-rank-badge').textContent = rank.badge;
-      document.getElementById('profile-rank-title').textContent = isJa ? rank.titleJa : rank.titleEn;
+      document.getElementById('profile-rank-title').textContent = this.getLocalizedRankTitle(rank);
       document.getElementById('profile-wins').textContent = user.wins || 0;
       document.getElementById('profile-losses').textContent = user.losses || 0;
 
@@ -3967,7 +4759,7 @@ class ShogiApp {
 
     if (user) {
       const rank = this.accountManager.getRank(user.rating);
-      const rankTitle = isJa ? rank.titleJa : rank.titleEn;
+      const rankTitle = this.getLocalizedRankTitle(rank);
       if (userLabel) userLabel.textContent = `${user.username} [${user.rating}]`;
 
       if (this.mode === 'ai') {
@@ -4335,18 +5127,48 @@ class ShogiApp {
 
     this.currentLessonIdx = idx;
     const lesson = TUTORIAL_LESSONS[idx];
+    const lang = getLanguage();
+
+    const title = lesson[`title_${lang}`] || lesson.title_en || lesson.title || '';
+    const subtitle = lesson[`subtitle_${lang}`] || lesson.subtitle_en || lesson.subtitle || '';
+    const badge = lesson[`badge_${lang}`] || lesson.badge_en || lesson.badge || '';
+    const content = lesson[`content_${lang}`] || lesson.content_en || lesson.content || '';
 
     const titleEl = document.getElementById('lesson-title');
-    if (titleEl) titleEl.textContent = `${lesson.title} - ${lesson.subtitle}`;
+    if (titleEl) titleEl.textContent = `${title} — ${subtitle}`;
 
     const badgeEl = document.getElementById('lesson-badge');
-    if (badgeEl) badgeEl.textContent = lesson.badge;
+    if (badgeEl) badgeEl.textContent = badge;
 
     const contentEl = document.getElementById('lesson-content');
-    if (contentEl) contentEl.innerHTML = lesson.content;
+    if (contentEl) contentEl.innerHTML = content;
 
     const pageEl = document.getElementById('lesson-page-indicator');
     if (pageEl) pageEl.textContent = `${idx + 1} / ${TUTORIAL_LESSONS.length}`;
+
+    const isLast = idx === TUTORIAL_LESSONS.length - 1;
+    document.getElementById('lesson-next-btn')?.classList.toggle('hidden', isLast);
+    document.getElementById('lesson-finish-btn')?.classList.toggle('hidden', !isLast);
+
+    // Load interactive board demonstration for this lesson
+    if (typeof lesson.setupBoard === 'function') {
+      const demo = lesson.setupBoard();
+      if (demo) {
+        this.game.board = demo.board;
+        this.game.hands = demo.hands;
+        this.game.turn = demo.turn;
+        this.game.moveHistory = [];
+        this.game.positionHistory = [];
+        this.game.status = 'active';
+        this.game.winner = null;
+        this.game.inCheck = false;
+      } else {
+        this.game.reset();
+      }
+      this.ui.isFlipped = false;
+      this.ui.clearSelection();
+      this.ui.render();
+    }
   }
 
   changeLesson(delta) {

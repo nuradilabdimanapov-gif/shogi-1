@@ -181,7 +181,24 @@ export const TRANSLATIONS = {
     btnPrevMove: '◀ Prev',
     btnNextMove: '▶ Next',
     btnLatestMove: '⏭ Latest',
-    viewingMove: 'Viewing move'
+    viewingMove: 'Viewing move',
+
+    // Onboarding / Registration Gate
+    onboardBadge: 'Welcome to Shogi Web',
+    onboardTitle: 'Create Your Player Profile',
+    onboardSubtitle: 'Sign in with Google to save your rating, rank, and start your personalized Shogi tutorial.',
+    onboardChooseLang: 'Choose Your Language / 言語 / Язык',
+    onboardGoogleBtn: 'Sign in with Google',
+    onboardOr: 'or create a local profile',
+    onboardGoogleModalTitle: 'Sign in with Google',
+    onboardGoogleModalSub: 'Enter your Google account details to create your Shogi profile',
+    onboardEmailLabel: 'Google Email',
+    onboardNameLabel: 'Display Name',
+    onboardAvatarLabel: 'Choose Your Crest',
+    onboardCreateProfileBtn: 'Complete Profile & Start Tutorial →',
+    onboardStartTutorial: 'Register & Start Tutorial →',
+    onboardTutorialPrompt: 'Interactive tutorial starts right after registration!',
+    btnFinishTutorial: '⚔️ Finish Tutorial & Play'
   },
 
   ja: {
@@ -361,7 +378,221 @@ export const TRANSLATIONS = {
     btnPrevMove: '◀ 前の一手',
     btnNextMove: '▶ 次の一手',
     btnLatestMove: '⏭ 最新局面',
-    viewingMove: '局面確認中:'
+    viewingMove: '局面確認中:',
+
+    // Onboarding / Registration Gate
+    onboardBadge: '将棋Webへようこそ',
+    onboardTitle: 'プレイヤープロフィールを作成',
+    onboardSubtitle: 'Googleアカウントでログインして段級位を保存し、将棋チュートリアルを始めましょう。',
+    onboardChooseLang: '言語を選択 / Language / Язык',
+    onboardGoogleBtn: 'Googleでログイン',
+    onboardOr: 'またはローカルアカウントを作成',
+    onboardGoogleModalTitle: 'Googleでログイン',
+    onboardGoogleModalSub: 'Googleアカウント情報を入力してプロフィールを作成',
+    onboardEmailLabel: 'Googleメールアドレス',
+    onboardNameLabel: '表示名 (プレイヤー名)',
+    onboardAvatarLabel: '家紋・アイコンを選択',
+    onboardCreateProfileBtn: 'プロフィール作成して入門へ →',
+    onboardStartTutorial: '登録してチュートリアル開始 →',
+    onboardTutorialPrompt: '登録後すぐに将棋入門チュートリアルが始まります！',
+    btnFinishTutorial: '⚔️ チュートリアル完了・対局へ'
+  },
+
+  ru: {
+    // Brand & Header
+    brandTitle: 'СЁГИ ВЕБ',
+    brandTagline: 'Искусство и стратегия японских шахмат',
+    tabPlayAi: 'Игра с ИИ',
+    tabPvp: 'За одним ПК',
+    tabPuzzle: 'Цумэсёги',
+    tabAcademy: 'Академия',
+    btnSound: 'Звук',
+    btnUnmute: 'Включить звук',
+    btnFlip: 'Перевернуть',
+    btnSettings: 'Настройки',
+    btnAccount: 'Аккаунт',
+    btnSignIn: 'Войти',
+
+    // Player Panels
+    senteRole: 'Сэнтэ (先手 / Чёрные)',
+    goteRole: 'Готэ (後手 / Белые)',
+    komadai: 'Комадай (подставка)',
+    komadaiEmpty: 'Пусто',
+    aiOpponent: 'Противник-ИИ',
+    guestUser: 'Гость',
+    aiThinking: 'ИИ обдумывает ход...',
+
+    // Settings
+    settingsTitle: 'Настройки игры',
+    settingsLanguage: 'Язык',
+    settingsBgm: 'Традиционная японская музыка',
+    settingsBgmDesc: 'Процедурные мелодии кото и сякухати',
+    settingsBgmVolume: 'Громкость музыки',
+    settingsSfx: 'Звуковые эффекты (стук фигур)',
+    settingsTheme: 'Тема доски и оформление',
+    settingsPieceStyle: 'Начертание фигур',
+    themeKaya: 'Традиционное дерево кая (本榧)',
+    themeZen: 'Тёмный сланец дзэн (玄昌石)',
+    themeSakura: 'Цветущая сакура (桜)',
+    pieceKanji2: 'Традиционные (2 кандзи — 王将, 飛車)',
+    pieceKanji1: 'Упрощённые (1 кандзи — 王, 飛, 竜)',
+    pieceGuide: 'Для начинающих (точки показывают ходы!)',
+    pieceWestern: 'Международные (K, R, +R — символы)',
+    btnClose: 'Закрыть',
+
+    // Match Config
+    matchSettings: 'Настройки партии',
+    aiDifficulty: 'Сложность ИИ',
+    diffNovice: 'Новичок (初級) — мягко и снисходительно',
+    diffApprentice: 'Ученик (中級) — хорошо для практики',
+    diffTactician: 'Тактик (上級) — остро и стратегично',
+    diffMaster: 'Мастер (有段者) — глубокий расчёт',
+    playAs: 'Играть за',
+    senteFirst: '☗ Сэнтэ (первый / чёрные)',
+    goteSecond: '☖ Готэ (второй / белые)',
+    btnNewGame: '⚔️ Новая партия',
+    btnTakeBack: '↩ Взять ход назад',
+    btnResign: '🏳️ Сдаться',
+    btnExportSfen: '📋 Экспорт SFEN',
+    moveHistory: 'История ходов',
+    noMovesYet: 'Ходов пока нет. Сделайте первый ход!',
+
+    // Status Announcements
+    turnToMove: 'ходит.',
+    turnSente: 'Сэнтэ (Чёрные / 先手)',
+    turnGote: 'Готэ (Белые / 後手)',
+    statusCheck: 'Шах (王手)!',
+    statusCheckmate: 'Мат (詰み)!',
+    statusWins: 'побеждает!',
+    statusResign: 'Сдача партии',
+    statusRepetition: 'Ничья по сэнничитэ (千日手) — четырёхкратное повторение!',
+    statusStalemate: 'Ничья — пат!',
+    confirmResign: 'Вы уверены, что хотите сдаться? (投了しますか？)',
+    confirmNewGame: 'Начать новую партию?',
+
+    // Promotion Modal
+    promoTitle: 'Превратить фигуру?',
+    promoSubtitle: 'Вход в зону превращения открывает усиленные способности (成る).',
+    promoYes: '✨ Превратить (成る)',
+    promoNo: 'Оставить как есть (不成)',
+
+    // Accounts & Rating
+    accountTitle: 'Аккаунт и рейтинг игрока',
+    accountCreate: 'Создать аккаунт',
+    accountLogin: 'Войти в аккаунт',
+    accountUsername: 'Имя пользователя',
+    accountPassword: 'Пароль (ПИН-код или пароль)',
+    accountSubmitCreate: 'Создать аккаунт и играть',
+    accountSubmitLogin: 'Войти',
+    accountSwitch: 'Сменить аккаунт / Выйти',
+    accountRating: 'Рейтинг (ELO)',
+    accountRank: 'Ранг сёги',
+    accountStats: 'Статистика',
+    accountWins: 'Победы',
+    accountLosses: 'Поражения',
+    accountDraws: 'Ничьи',
+    accountWinrate: 'Процент побед',
+    accountRequireNotice: 'Войдите или создайте аккаунт, чтобы начать играть и отслеживать свой рейтинг!',
+    accountGuestPrompt: 'Ещё нет аккаунта? Создайте за пару секунд!',
+    accountLoginPrompt: 'Уже есть аккаунт? Войдите здесь.',
+
+    // Puzzles & Academy
+    puzzleHeader: 'Задача цумэсёги',
+    puzzleHint: 'Подсказка:',
+    puzzleSuccess: '🎉 Верно! Мат поставлен (詰み)!',
+    puzzleFail: '❌ Не совсем. Король противника ускользает! Попробуйте снова.',
+    puzzleInfo: 'Хороший ход! Теперь поставьте завершающий мат.',
+    btnPrev: '◀ Назад',
+    btnRetry: '↺ Заново',
+    btnNext: 'Далее ▶',
+    btnNextLesson: 'Следующий урок ▶',
+
+    // Landing Page & Match Setup
+    btnHome: 'Главная',
+    heroBadge: 'Традиционные японские шахматы',
+    heroTitle: 'ОСВОЙТЕ ИСКУССТВО СЁГИ',
+    heroTagline: 'Захваченные фигуры возвращаются в бой на вашей стороне. Переиграйте соперника в главной стратегической игре.',
+    heroStartGame: '⚔️ Начать игру',
+    heroPuzzles: '🧩 Задачи цумэсёги',
+    heroAcademy: '📖 Правила сёги',
+    heroFeaturesTitle: 'Почему стоит играть в Сёги Веб',
+    featAiTitle: 'Умные ИИ-противники',
+    featAiDesc: 'Играйте с движком от новичка до мастера — реалистичный стиль игры.',
+    featPvpTitle: 'Игра с людьми',
+    featPvpDesc: 'Пригласите друга по ссылке или сразитесь со случайным онлайн-соперником.',
+    featRatingTitle: 'Официальные ранги дан / кю',
+    featRatingDesc: 'Поднимайтесь по лестнице от 15-кю ученика до 5-дан гроссмейстера.',
+    featAudioTitle: 'Традиционная японская музыка',
+    featAudioDesc: 'Процедурные мелодии кото и сякухати, а также характерный стук фигур о доску.',
+
+    // Match Setup Modal
+    setupTitle: 'Начать партию',
+    setupSubtitle: 'Выберите соперника и правила партии',
+    chooseOpponent: 'С кем вы хотите сыграть?',
+    optRobot: 'Игра против робота',
+    optRobotDesc: 'Бросьте вызов компьютерному ИИ с настраиваемой сложностью.',
+    optPerson: 'Игра против человека',
+    optPersonDesc: 'Пригласите друга или найдите случайного игрока вашего уровня.',
+    setupRobotTitle: 'Настройка партии с роботом',
+    selectDifficulty: 'Выберите уровень сложности ИИ',
+    diffNoviceName: 'Новичок (初級)',
+    diffNoviceDesc: '~1000 ELO · Мягкая игра, отлично для начинающих',
+    diffApprenticeName: 'Ученик (中級)',
+    diffApprenticeDesc: '~1250 ELO · Уверенная тактическая игра и защита',
+    diffTacticianName: 'Тактик (上級)',
+    diffTacticianDesc: '~1500 ELO · Острые атаки и хитрые сбросы фигур',
+    diffMasterName: 'Мастер (有段者)',
+    diffMasterDesc: '~1750 ELO · Глубокий перебор и беспощадный расчёт',
+    selectSide: 'Выберите сторону',
+    sideSenteLabel: '☗ Сэнтэ (первый / чёрные)',
+    sideRandomLabel: '🎲 Случайная сторона',
+    sideGoteLabel: '☖ Готэ (второй / белые)',
+    btnStartRobotMatch: '⚔️ Начать партию с роботом',
+    btnBack: '◀ Назад',
+
+    // Person Match Setup
+    setupPersonTitle: 'Игра против человека',
+    optInviteFriend: 'Пригласить друга / За одним экраном',
+    optInviteFriendDesc: 'Играйте на одном экране по очереди или отправьте другу ссылку на партию.',
+    optRandomOpponent: 'Случайный соперник',
+    optRandomOpponentDesc: 'Мгновенный подбор игрока по вашему рейтингу из очереди.',
+    roomLinkTitle: 'Ссылка на партию:',
+    btnCopyLink: '📋 Копировать ссылку',
+    linkCopied: 'Скопировано в буфер обмена!',
+    btnStartFriendMatch: '▶ Начать партию с другом (за одним ПК)',
+    btnFindRandomOpponent: '🔍 Найти случайного соперника',
+
+    // Matchmaking Radar
+    radarSearching: 'Поиск соперника рядом с вашим рейтингом...',
+    radarScanning: 'Сканирование активных комнат сёги...',
+    radarFound: '⚔️ Соперник найден!',
+    radarStarting: 'Партия начнётся через 2 секунды...',
+    btnCancelSearch: 'Отменить поиск',
+
+    // History replay
+    historyReplayTitle: 'История ходов и просмотр',
+    btnFirstMove: '⏮ Начало',
+    btnPrevMove: '◀ Назад',
+    btnNextMove: '▶ Вперёд',
+    btnLatestMove: '⏭ Последний',
+    viewingMove: 'Просмотр хода',
+
+    // Onboarding / Registration Gate
+    onboardBadge: 'Добро пожаловать в Shogi Web',
+    onboardTitle: 'Создайте профиль игрока',
+    onboardSubtitle: 'Войдите через Google, чтобы сохранить свой рейтинг, ранг и пройти интерактивное обучение.',
+    onboardChooseLang: 'Выберите язык / Language / 言語',
+    onboardGoogleBtn: 'Войти через Google',
+    onboardOr: 'или создайте локальный профиль',
+    onboardGoogleModalTitle: 'Вход через Google',
+    onboardGoogleModalSub: 'Укажите данные вашего Google-аккаунта для создания профиля',
+    onboardEmailLabel: 'Google Email',
+    onboardNameLabel: 'Имя игрока (в профиле)',
+    onboardAvatarLabel: 'Выберите эмблему',
+    onboardCreateProfileBtn: 'Создать профиль и начать обучение →',
+    onboardStartTutorial: 'Зарегистрироваться и начать обучение →',
+    onboardTutorialPrompt: 'Сразу после регистрации начнётся обучение на выбранном языке!',
+    btnFinishTutorial: '⚔️ Завершить обучение и играть'
   }
 };
 
@@ -375,7 +606,7 @@ export function getLanguage() {
 }
 
 export function setLanguage(lang) {
-  if (lang !== 'en' && lang !== 'ja') lang = 'en';
+  if (!['en', 'ja', 'ru'].includes(lang)) lang = 'en';
   currentLang = lang;
   try {
     localStorage.setItem('shogi_language', lang);

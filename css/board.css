@@ -199,14 +199,17 @@
 
 /* The Authentic Kaya Wooden Frame */
 .board-frame {
-  padding: 18px;
-  background: var(--board-gradient);
+  padding: 20px;
+  background:
+    repeating-linear-gradient(90deg, rgba(109, 75, 35, 0.04) 0px, rgba(109, 75, 35, 0.04) 3px, transparent 3px, transparent 11px),
+    var(--board-gradient);
   background-color: var(--board-bg);
   border: 10px solid var(--board-border);
-  border-radius: 8px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.6),
-    inset 0 0 15px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  box-shadow:
+    0 22px 45px rgba(0, 0, 0, 0.65),
+    inset 0 0 18px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   position: relative;
 }
 
