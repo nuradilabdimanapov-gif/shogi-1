@@ -233,4 +233,34 @@ export class AccountManager {
       // Offline / sandboxed fallback is completely fine
     }
   }
+
+  // --- Game History Archive ---
+  getGameHistory() {
+    try {
+      const raw = localStorage.getItem('shogi_game_history');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  saveGameRecord(record) {
+    try {
+      const list = this.getGameHistory();
+      list.unshift(record);
+      if (list.length > 40) list.length = 40;
+      localStorage.setItem('shogi_game_history', JSON.stringify(list));
+    } catch (e) {}
+  }
+
+  updateGameAnalysis(gameId, summary) {
+    try {
+      const list = this.getGameHistory();
+      const target = list.find(g => g.id === gameId);
+      if (target) {
+        target.analysisSummary = summary;
+        localStorage.setItem('shogi_game_history', JSON.stringify(list));
+      }
+    } catch (e) {}
+  }
 }

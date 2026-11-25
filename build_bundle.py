@@ -14,6 +14,7 @@ files = [
     'js/accounts.js',
     'js/engine/shogi.js',
     'js/engine/ai.js',
+    'js/engine/analyzer.js',
     'js/engine/puzzles.js',
     'js/engine/tutorial.js',
     'js/audio.js',

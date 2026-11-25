@@ -56,6 +56,7 @@
         <button id="bgm-next-btn" class="btn btn-secondary btn-sm" title="Switch Japanese Song / 曲切替" data-i18n="btnNextSong">⏭ Track</button>
         <button id="mute-toggle-btn" class="btn btn-secondary btn-sm" title="Toggle Sound Effects">🔊 SFX</button>
         <button id="flip-board-btn" class="btn btn-secondary btn-sm" title="Flip Board Perspective">🔄 Flip</button>
+        <button id="history-open-btn" class="btn btn-secondary btn-sm" title="Past Games" data-i18n="btnPastGames">📜 Past Games</button>
         <button id="settings-open-btn" class="btn btn-secondary btn-sm" title="Settings / 設定">⚙️ Settings</button>
         <button id="account-open-btn" class="btn btn-primary btn-sm" title="Account & Rating / アカウント">👤 <span id="header-user-label">Account</span></button>
       </div>
@@ -101,6 +102,9 @@
             </button>
             <button id="hero-academy-btn" class="btn btn-secondary btn-md">
               <span>📖</span> <span data-i18n="heroAcademy">Learn Shogi Rules</span>
+            </button>
+            <button id="hero-history-btn" class="btn btn-secondary btn-md">
+              <span>📜</span> <span data-i18n="btnPastGames">Past Games</span>
             </button>
             <button id="hero-settings-btn" class="btn btn-secondary btn-md">
               <span>⚙️</span> <span data-i18n="settingsTitle">Game Settings</span>
@@ -215,6 +219,14 @@
             <div class="status-turn">Loading Shogi Engine...</div>
           </div>
 
+          <!-- Post-Game Move Analysis Card -->
+          <div id="analysis-summary-card" class="config-card hidden">
+            <h3 class="card-title"><span data-i18n="analysisTitle">Game Review & Move Analysis</span></h3>
+            <div id="analysis-accuracy-row" class="analysis-accuracy-row"></div>
+            <div id="analysis-counts-grid" class="analysis-counts-grid"></div>
+            <div id="analysis-move-callout" class="analysis-move-callout hidden"></div>
+          </div>
+
           <!-- Dynamic Panels Based on Mode -->
           <!-- 1. Play vs AI Config Panel -->
           <div id="ai-config-panel" class="config-card">
@@ -309,7 +321,10 @@
           <div class="history-card">
             <div class="history-header">
               <h4 data-i18n="moveHistory">Move History</h4>
-              <button id="export-sfen-btn" class="btn btn-xs btn-outline" title="Copy SFEN notation to clipboard">📋 Export SFEN</button>
+              <div style="display:flex;gap:6px;">
+                <button id="analyze-game-btn" class="btn btn-xs btn-primary" data-i18n="btnAnalyzeGame">📊 Analyze Game</button>
+                <button id="export-sfen-btn" class="btn btn-xs btn-outline" title="Copy SFEN notation to clipboard">📋 SFEN</button>
+              </div>
             </div>
             <ul id="move-log-list" class="move-log-scroll">
               <li class="move-log-empty">No moves recorded yet.</li>
@@ -509,6 +524,17 @@
             <button type="submit" id="auth-submit-btn" class="btn btn-primary btn-block" data-i18n="accountSubmitCreate">Create Account & Play</button>
           </form>
         </div>
+      </div>
+    </div>
+
+    <!-- Game History Archive Modal -->
+    <div id="history-modal" class="modal-backdrop">
+      <div class="modal-card modal-card-wide">
+        <div class="modal-header-row">
+          <h3 class="modal-title"><span class="modal-icon">📜</span> <span data-i18n="historyModalTitle">History of Played Games</span></h3>
+          <button id="history-close-btn" class="modal-close-btn" title="Close">&times;</button>
+        </div>
+        <div id="history-list-container" class="history-list-container"></div>
       </div>
     </div>
 

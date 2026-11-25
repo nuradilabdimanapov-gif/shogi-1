@@ -202,7 +202,19 @@ export const TRANSLATIONS = {
     tabWatchAnim: '🎬 Watch Animation',
     tabPracticeBoard: '♟️ Practice 9×9 Board',
     settingsSong: 'Select Music Track',
-    btnNextSong: '⏭ Track'
+    btnNextSong: '⏭ Track',
+    btnPastGames: '📜 Past Games',
+    btnAnalyzeGame: '📊 Analyze Game',
+    analysisTitle: 'Game Review & Move Analysis',
+    historyModalTitle: 'History of Played Games',
+    historyEmpty: 'No finished games yet. Complete a match to review and analyze it here!',
+    btnReplayAnalyze: '📊 Replay & Analyze',
+    accuracyLabel: 'Accuracy',
+    qualityBrilliant: 'Brilliant',
+    qualityGreat: 'Great',
+    qualityMedium: 'Medium',
+    qualityBad: 'Bad',
+    qualityTerrible: 'Terrible'
   },
 
   ja: {
@@ -403,7 +415,19 @@ export const TRANSLATIONS = {
     tabWatchAnim: '🎬 アニメ解説を見る',
     tabPracticeBoard: '♟️ 9×9盤で練習する',
     settingsSong: 'BGM楽曲を選択',
-    btnNextSong: '⏭ 曲切替'
+    btnNextSong: '⏭ 曲切替',
+    btnPastGames: '📜 対局履歴',
+    btnAnalyzeGame: '📊 棋譜解析',
+    analysisTitle: '対局解析・評価',
+    historyModalTitle: '対局履歴アーカイブ',
+    historyEmpty: '完了した対局はまだありません。対局を終えるとここに記録されます！',
+    btnReplayAnalyze: '📊 再生・解析',
+    accuracyLabel: '正確度',
+    qualityBrilliant: '妙手',
+    qualityGreat: '好手',
+    qualityMedium: '普通',
+    qualityBad: '疑問手',
+    qualityTerrible: '悪手'
   },
 
   ru: {
@@ -604,7 +628,19 @@ export const TRANSLATIONS = {
     tabWatchAnim: '🎬 Смотреть анимацию',
     tabPracticeBoard: '♟️ Практика на доске 9×9',
     settingsSong: 'Выбор мелодии (BGM)',
-    btnNextSong: '⏭ Трек'
+    btnNextSong: '⏭ Трек',
+    btnPastGames: '📜 История игр',
+    btnAnalyzeGame: '📊 Анализ игры',
+    analysisTitle: 'Разбор и оценка ходов',
+    historyModalTitle: 'История сыгранных партий',
+    historyEmpty: 'Завершённых партий пока нет. Сыграйте матч, чтобы проанализировать его здесь!',
+    btnReplayAnalyze: '📊 Повтор и анализ',
+    accuracyLabel: 'Точность',
+    qualityBrilliant: 'Блестящий',
+    qualityGreat: 'Отличный',
+    qualityMedium: 'Хороший',
+    qualityBad: 'Неточный',
+    qualityTerrible: 'Зевок'
   }
 };
 

@@ -508,7 +508,19 @@ const TRANSLATIONS = {
     tabWatchAnim: '🎬 Watch Animation',
     tabPracticeBoard: '♟️ Practice 9×9 Board',
     settingsSong: 'Select Music Track',
-    btnNextSong: '⏭ Track'
+    btnNextSong: '⏭ Track',
+    btnPastGames: '📜 Past Games',
+    btnAnalyzeGame: '📊 Analyze Game',
+    analysisTitle: 'Game Review & Move Analysis',
+    historyModalTitle: 'History of Played Games',
+    historyEmpty: 'No finished games yet. Complete a match to review and analyze it here!',
+    btnReplayAnalyze: '📊 Replay & Analyze',
+    accuracyLabel: 'Accuracy',
+    qualityBrilliant: 'Brilliant',
+    qualityGreat: 'Great',
+    qualityMedium: 'Medium',
+    qualityBad: 'Bad',
+    qualityTerrible: 'Terrible'
   },
 
   ja: {
@@ -709,7 +721,19 @@ const TRANSLATIONS = {
     tabWatchAnim: '🎬 アニメ解説を見る',
     tabPracticeBoard: '♟️ 9×9盤で練習する',
     settingsSong: 'BGM楽曲を選択',
-    btnNextSong: '⏭ 曲切替'
+    btnNextSong: '⏭ 曲切替',
+    btnPastGames: '📜 対局履歴',
+    btnAnalyzeGame: '📊 棋譜解析',
+    analysisTitle: '対局解析・評価',
+    historyModalTitle: '対局履歴アーカイブ',
+    historyEmpty: '完了した対局はまだありません。対局を終えるとここに記録されます！',
+    btnReplayAnalyze: '📊 再生・解析',
+    accuracyLabel: '正確度',
+    qualityBrilliant: '妙手',
+    qualityGreat: '好手',
+    qualityMedium: '普通',
+    qualityBad: '疑問手',
+    qualityTerrible: '悪手'
   },
 
   ru: {
@@ -910,7 +934,19 @@ const TRANSLATIONS = {
     tabWatchAnim: '🎬 Смотреть анимацию',
     tabPracticeBoard: '♟️ Практика на доске 9×9',
     settingsSong: 'Выбор мелодии (BGM)',
-    btnNextSong: '⏭ Трек'
+    btnNextSong: '⏭ Трек',
+    btnPastGames: '📜 История игр',
+    btnAnalyzeGame: '📊 Анализ игры',
+    analysisTitle: 'Разбор и оценка ходов',
+    historyModalTitle: 'История сыгранных партий',
+    historyEmpty: 'Завершённых партий пока нет. Сыграйте матч, чтобы проанализировать его здесь!',
+    btnReplayAnalyze: '📊 Повтор и анализ',
+    accuracyLabel: 'Точность',
+    qualityBrilliant: 'Блестящий',
+    qualityGreat: 'Отличный',
+    qualityMedium: 'Хороший',
+    qualityBad: 'Неточный',
+    qualityTerrible: 'Зевок'
   }
 };
 
@@ -1205,6 +1241,36 @@ class AccountManager {
     } catch (e) {
       // Offline / sandboxed fallback is completely fine
     }
+  }
+
+  // --- Game History Archive ---
+  getGameHistory() {
+    try {
+      const raw = localStorage.getItem('shogi_game_history');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  saveGameRecord(record) {
+    try {
+      const list = this.getGameHistory();
+      list.unshift(record);
+      if (list.length > 40) list.length = 40;
+      localStorage.setItem('shogi_game_history', JSON.stringify(list));
+    } catch (e) {}
+  }
+
+  updateGameAnalysis(gameId, summary) {
+    try {
+      const list = this.getGameHistory();
+      const target = list.find(g => g.id === gameId);
+      if (target) {
+        target.analysisSummary = summary;
+        localStorage.setItem('shogi_game_history', JSON.stringify(list));
+      }
+    } catch (e) {}
   }
 }
 
@@ -2248,6 +2314,182 @@ class ShogiAI {
     }
 
     return legalMoves[0];
+  }
+}
+
+
+// --- Begin: js/engine/analyzer.js ---
+/**
+ * Shogi Web - Post-Game Move Analyzer
+ * Evaluates every ply of a finished game and classifies moves into:
+ * Brilliant (!!), Great (!), Medium (✓), Bad (?!), Terrible (??)
+ */
+
+
+
+
+
+const MOVE_QUALITIES = {
+  brilliant: { symbol: '!!', color: '#22d3ee', label_en: 'Brilliant', label_ja: '妙手', label_ru: 'Блестящий' },
+  great:     { symbol: '!',  color: '#3b82f6', label_en: 'Great',     label_ja: '好手', label_ru: 'Отличный' },
+  medium:    { symbol: '✓',  color: '#4ade80', label_en: 'Medium',    label_ja: '普通', label_ru: 'Хороший' },
+  bad:       { symbol: '?!', color: '#f59e0b', label_en: 'Bad',       label_ja: '疑問手', label_ru: 'Неточный' },
+  terrible:  { symbol: '??', color: '#ef4444', label_en: 'Terrible',  label_ja: '悪手', label_ru: 'Зевок' }
+};
+
+class GameAnalyzer {
+  constructor() {
+    this.ai = new ShogiAI('apprentice');
+  }
+
+  scoreMove(game, move, player) {
+    const cloned = game.clone();
+    cloned.makeMove(move);
+
+    if (cloned.status === 'checkmate') {
+      return 50000;
+    }
+
+    // Evaluate from SENTE perspective, then flip if player is GOTE
+    let score = this.ai.evaluatePosition(cloned);
+    if (player === GOTE) score = -score;
+
+    // Bonus for giving check
+    if (cloned.inCheck) score += 35;
+
+    return score;
+  }
+
+  movesMatch(a, b) {
+    if (!a || !b) return false;
+    if (Boolean(a.isDrop) !== Boolean(b.isDrop)) return false;
+    if (a.isDrop) {
+      return a.pieceType === b.pieceType && a.to.x === b.to.x && a.to.y === b.to.y;
+    }
+    return (
+      a.from && b.from &&
+      a.from.x === b.from.x && a.from.y === b.from.y &&
+      a.to.x === b.to.x && a.to.y === b.to.y &&
+      Boolean(a.promote) === Boolean(b.promote)
+    );
+  }
+
+  analyzeGame(moveHistory) {
+    const sim = new ShogiGame();
+    const results = [];
+
+    const counts = {
+      [SENTE]: { brilliant: 0, great: 0, medium: 0, bad: 0, terrible: 0, totalLoss: 0, totalMoves: 0 },
+      [GOTE]:  { brilliant: 0, great: 0, medium: 0, bad: 0, terrible: 0, totalLoss: 0, totalMoves: 0 }
+    };
+
+    for (let ply = 0; ply < moveHistory.length; ply++) {
+      const played = moveHistory[ply];
+      const player = sim.turn;
+      const legalMoves = sim.getLegalMoves(player);
+
+      let bestScore = -Infinity;
+      let secondBestScore = -Infinity;
+      let bestMove = null;
+      let playedScore = null;
+
+      // Sample up to 45 top tactical/legal moves for speed while always including the played move
+      let candidates = legalMoves;
+      if (legalMoves.length > 45) {
+        candidates = this.ai.orderMoves(sim, legalMoves).slice(0, 45);
+        if (!candidates.some(m => this.movesMatch(m, played))) {
+          candidates.push(played);
+        }
+      }
+
+      for (const m of candidates) {
+        const s = this.scoreMove(sim, m, player);
+        if (s > bestScore) {
+          secondBestScore = bestScore;
+          bestScore = s;
+          bestMove = m;
+        } else if (s > secondBestScore) {
+          secondBestScore = s;
+        }
+        if (this.movesMatch(m, played)) {
+          playedScore = s;
+        }
+      }
+
+      if (playedScore === null) {
+        playedScore = this.scoreMove(sim, played, player);
+      }
+
+      const cpLoss = Math.max(0, bestScore - playedScore);
+      const isOnlyMove = (bestScore - secondBestScore) >= 160 && cpLoss <= 15;
+      const isMate = playedScore >= 40000;
+
+      // Check if move is a bold tactical capture/check into a contested square
+      let isSacrificeTactic = false;
+      if (!played.isDrop && cpLoss <= 20 && ply >= 4) {
+        const destBefore = sim.getPiece(played.to.x, played.to.y);
+        if (destBefore && destBefore.player !== player && bestScore > 120) {
+          isSacrificeTactic = true;
+        }
+      }
+
+      let quality = 'medium';
+      if ((isOnlyMove || isMate || (isSacrificeTactic && played.promote)) && cpLoss <= 15) {
+        quality = 'brilliant';
+      } else if (cpLoss <= 25) {
+        quality = 'great';
+      } else if (cpLoss <= 95) {
+        quality = 'medium';
+      } else if (cpLoss <= 240) {
+        quality = 'bad';
+      } else {
+        quality = 'terrible';
+      }
+
+      // Compute Sente-perspective eval after the move
+      sim.makeMove({
+        from: played.from,
+        to: played.to,
+        promote: played.promote,
+        isDrop: played.isDrop,
+        pieceType: played.pieceType
+      });
+
+      const senteEval = sim.status === 'checkmate'
+        ? (sim.winner === SENTE ? 9999 : -9999)
+        : this.ai.evaluatePosition(sim);
+
+      counts[player][quality]++;
+      counts[player].totalLoss += Math.min(cpLoss, 500);
+      counts[player].totalMoves++;
+
+      results.push({
+        ply,
+        player,
+        quality,
+        symbol: MOVE_QUALITIES[quality].symbol,
+        color: MOVE_QUALITIES[quality].color,
+        cpLoss: Math.round(cpLoss),
+        senteEval: Math.round(senteEval),
+        bestMoveNotation: bestMove ? sim.formatNotation(bestMove, null) : ''
+      });
+    }
+
+    const calcAccuracy = (c) => {
+      if (c.totalMoves === 0) return 100;
+      const avgLoss = c.totalLoss / c.totalMoves;
+      return Math.max(10, Math.min(99.9, Math.round((100 - avgLoss * 0.22) * 10) / 10));
+    };
+
+    return {
+      moves: results,
+      summary: {
+        senteAccuracy: calcAccuracy(counts[SENTE]),
+        goteAccuracy: calcAccuracy(counts[GOTE]),
+        senteCounts: counts[SENTE],
+        goteCounts: counts[GOTE]
+      }
+    };
   }
 }
 
@@ -4786,6 +5028,15 @@ class ShogiUI {
       li.appendChild(numSpan);
       li.appendChild(notationSpan);
 
+      if (this.moveAnalysis && this.moveAnalysis[idx]) {
+        const info = this.moveAnalysis[idx];
+        const badge = document.createElement('span');
+        badge.className = `move-badge ${info.quality}`;
+        badge.textContent = info.symbol;
+        badge.title = `${info.quality.toUpperCase()} (loss: ${info.cpLoss})`;
+        li.appendChild(badge);
+      }
+
       li.style.cursor = 'pointer';
       li.title = 'Click to view board at this move';
       li.onclick = () => {
@@ -4823,12 +5074,16 @@ class ShogiUI {
 
 
 
+
 class ShogiApp {
   constructor() {
     this.game = new ShogiGame();
     this.audio = new AudioManager();
     this.ai = new ShogiAI('tactician');
+    this.analyzer = new GameAnalyzer();
     this.accountManager = new AccountManager();
+    this.currentAnalysis = null;
+    this.currentGameId = null;
 
     this.mode = 'ai'; // 'ai', 'pvp', 'puzzle', 'tutorial'
     this.humanPlayer = SENTE; // In vs AI mode: player is SENTE or GOTE
@@ -4982,6 +5237,11 @@ class ShogiApp {
     if (heroSettingsBtn) {
       heroSettingsBtn.addEventListener('click', () => this.openSettingsModal());
     }
+
+    document.getElementById('history-open-btn')?.addEventListener('click', () => this.openHistoryModal());
+    document.getElementById('hero-history-btn')?.addEventListener('click', () => this.openHistoryModal());
+    document.getElementById('history-close-btn')?.addEventListener('click', () => this.closeHistoryModal());
+    document.getElementById('analyze-game-btn')?.addEventListener('click', () => this.runPostGameAnalysis());
 
     const landingAccountBtn = document.getElementById('landing-account-btn');
     if (landingAccountBtn) {
@@ -5642,6 +5902,7 @@ class ShogiApp {
     const lastM = this.game.moveHistory[clamped];
     this.ui.render(lastM);
     this.updateHistoryIndicator();
+    this.updateAnalysisCalloutForPly(clamped);
   }
 
   stepReplay(delta) {
@@ -5853,14 +6114,46 @@ class ShogiApp {
   }
 
   handleGameOver() {
-    if (this.mode !== 'ai' || !this.accountManager.isLoggedIn()) return;
-
     let outcome = null;
     if (this.game.status === 'checkmate' || this.game.status === 'resigned') {
       outcome = this.game.winner === this.humanPlayer ? 1.0 : 0.0;
     } else if (this.game.status === 'repetition_draw' || this.game.status === 'stalemate') {
       outcome = 0.5;
     }
+
+    // Save finished game to History Archive
+    if (this.game.moveHistory.length > 0 && (this.mode === 'ai' || this.mode === 'pvp')) {
+      const resultLabel = outcome === 1.0 ? 'win' : (outcome === 0.0 ? 'loss' : 'draw');
+      const opponentName = this.mode === 'ai'
+        ? (this.randomOpponentInfo ? this.randomOpponentInfo.name : `${t('aiOpponent')} (${this.ai.difficulty})`)
+        : 'Pass & Play (Player 2)';
+
+      this.currentGameId = this.currentGameId || ('g_' + Date.now());
+      this.accountManager.saveGameRecord({
+        id: this.currentGameId,
+        date: new Date().toISOString(),
+        mode: this.mode,
+        opponentName,
+        playerSide: this.humanPlayer,
+        result: resultLabel,
+        status: this.game.status,
+        totalMoves: this.game.moveHistory.length,
+        moves: this.game.moveHistory.map(m => ({
+          from: m.from,
+          to: m.to,
+          promote: Boolean(m.promote),
+          isDrop: Boolean(m.isDrop),
+          pieceType: m.pieceType
+        }))
+      });
+    }
+
+    // Auto-run post-game move analysis when a match ends
+    if (this.game.moveHistory.length > 0 && (this.mode === 'ai' || this.mode === 'pvp')) {
+      this.runPostGameAnalysis();
+    }
+
+    if (this.mode !== 'ai' || !this.accountManager.isLoggedIn()) return;
 
     if (outcome !== null) {
       const result = this.accountManager.updateGameResult(outcome, this.getAiRating());
@@ -5871,10 +6164,153 @@ class ShogiApp {
         const toast = document.createElement('div');
         toast.className = 'status-alert alert-winner';
         toast.style.marginTop = '10px';
-        toast.innerHTML = `⭐ <strong>Rating Update:</strong> ${deltaStr} (New Rating: <strong>${result.newRating}</strong> · ${result.rank.titleJa})`;
+        toast.innerHTML = `⭐ <strong>Rating Update:</strong> ${deltaStr} (New Rating: <strong>${result.newRating}</strong> · ${this.getLocalizedRankTitle(result.rank)})`;
         document.getElementById('game-status-banner')?.appendChild(toast);
       }
     }
+  }
+
+  runPostGameAnalysis() {
+    if (!this.game || this.game.moveHistory.length === 0) return;
+    const analysis = this.analyzer.analyzeGame(this.game.moveHistory);
+    this.currentAnalysis = analysis;
+    this.ui.moveAnalysis = analysis.moves;
+
+    if (this.currentGameId) {
+      this.accountManager.updateGameAnalysis(this.currentGameId, analysis.summary);
+    }
+
+    this.renderAnalysisSummary(analysis);
+    const lastMove = this.game.moveHistory[this.game.moveHistory.length - 1] || null;
+    this.ui.render(lastMove);
+  }
+
+  renderAnalysisSummary(analysis) {
+    const card = document.getElementById('analysis-summary-card');
+    const accRow = document.getElementById('analysis-accuracy-row');
+    const countsGrid = document.getElementById('analysis-counts-grid');
+    if (!card || !accRow || !countsGrid) return;
+
+    card.classList.remove('hidden');
+    const s = analysis.summary;
+
+    accRow.innerHTML = `
+      <div class="acc-box">
+        <div class="acc-side">☗ Sente ${t('accuracyLabel')}</div>
+        <div class="acc-val">${s.senteAccuracy}%</div>
+      </div>
+      <div class="acc-box">
+        <div class="acc-side">☖ Gote ${t('accuracyLabel')}</div>
+        <div class="acc-val">${s.goteAccuracy}%</div>
+      </div>
+    `;
+
+    const c = (this.humanPlayer === GOTE && this.mode === 'ai') ? s.goteCounts : s.senteCounts;
+    const keys = [
+      { key: 'brilliant', lbl: t('qualityBrilliant') },
+      { key: 'great', lbl: t('qualityGreat') },
+      { key: 'medium', lbl: t('qualityMedium') },
+      { key: 'bad', lbl: t('qualityBad') },
+      { key: 'terrible', lbl: t('qualityTerrible') }
+    ];
+
+    countsGrid.innerHTML = keys.map(k => {
+      const q = MOVE_QUALITIES[k.key];
+      return `
+        <div class="analysis-count-pill">
+          <span class="pill-sym move-badge ${k.key}" style="margin:0;">${q.symbol}</span>
+          <span class="pill-num">${c[k.key]}</span>
+          <span class="pill-lbl">${k.lbl}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  updateAnalysisCalloutForPly(ply) {
+    const callout = document.getElementById('analysis-move-callout');
+    if (!callout || !this.currentAnalysis || !this.currentAnalysis.moves[ply]) {
+      callout?.classList.add('hidden');
+      return;
+    }
+    const info = this.currentAnalysis.moves[ply];
+    const lang = getLanguage();
+    const qMeta = MOVE_QUALITIES[info.quality];
+    const qLabel = qMeta[`label_${lang}`] || qMeta.label_en;
+    callout.classList.remove('hidden');
+    callout.innerHTML = `
+      <strong>#${ply + 1}</strong> · <span class="move-badge ${info.quality}" style="margin:0 4px 0 0;">${info.symbol}</span>
+      <strong>${qLabel}</strong>
+      ${info.bestMoveNotation && info.cpLoss > 25 ? ` · Best: <code>${info.bestMoveNotation}</code>` : ''}
+    `;
+  }
+
+  openHistoryModal() {
+    const modal = document.getElementById('history-modal');
+    const container = document.getElementById('history-list-container');
+    if (!modal || !container) return;
+
+    const games = this.accountManager.getGameHistory();
+    if (games.length === 0) {
+      container.innerHTML = `<p class="text-muted" style="text-align:center;padding:24px;">${t('historyEmpty')}</p>`;
+    } else {
+      container.innerHTML = games.map((g, idx) => {
+        const dt = new Date(g.date).toLocaleString();
+        const accText = g.analysisSummary ? ` · ${t('accuracyLabel')}: ${g.analysisSummary.senteAccuracy}%` : '';
+        return `
+          <div class="history-game-row">
+            <div class="history-game-meta">
+              <div class="history-game-title">
+                <span class="history-result-pill ${g.result}">${g.result}</span>
+                <span>vs ${g.opponentName}</span>
+              </div>
+              <div class="history-game-sub">${dt} · ${g.totalMoves} moves${accText}</div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm replay-history-btn" data-idx="${idx}">
+              ${t('btnReplayAnalyze')}
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.replay-history-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const g = games[parseInt(btn.dataset.idx, 10)];
+          if (g) this.loadHistoryGameForReview(g);
+        });
+      });
+    }
+
+    modal.classList.add('visible');
+  }
+
+  closeHistoryModal() {
+    document.getElementById('history-modal')?.classList.remove('visible');
+  }
+
+  loadHistoryGameForReview(record) {
+    this.closeHistoryModal();
+    this.mode = record.mode || 'pvp';
+    this.humanPlayer = record.playerSide ?? SENTE;
+    this.showGameView();
+
+    this.game.reset();
+    (record.moves || []).forEach(m => {
+      this.game.makeMove({
+        from: m.from,
+        to: m.to,
+        promote: m.promote,
+        isDrop: m.isDrop,
+        pieceType: m.pieceType
+      });
+    });
+
+    this.currentGameId = record.id;
+    this.replayPlyIndex = null;
+    this.ui.viewingGame = null;
+    this.ui.activePly = null;
+    this.ui.clearSelection();
+    this.runPostGameAnalysis();
+    this.goToReplayPly(0);
   }
 
   // --- Switch Modes ---
@@ -5932,6 +6368,11 @@ class ShogiApp {
 
   startNewGame() {
     this.game.reset();
+    this.currentAnalysis = null;
+    this.currentGameId = 'g_' + Date.now();
+    this.ui.moveAnalysis = null;
+    document.getElementById('analysis-summary-card')?.classList.add('hidden');
+    document.getElementById('analysis-move-callout')?.classList.add('hidden');
     this.isAiThinking = false;
     this.stopTimer();
     this.resumeLiveGame();

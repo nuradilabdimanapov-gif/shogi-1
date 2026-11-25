@@ -499,6 +499,15 @@ export class ShogiUI {
       li.appendChild(numSpan);
       li.appendChild(notationSpan);
 
+      if (this.moveAnalysis && this.moveAnalysis[idx]) {
+        const info = this.moveAnalysis[idx];
+        const badge = document.createElement('span');
+        badge.className = `move-badge ${info.quality}`;
+        badge.textContent = info.symbol;
+        badge.title = `${info.quality.toUpperCase()} (loss: ${info.cpLoss})`;
+        li.appendChild(badge);
+      }
+
       li.style.cursor = 'pointer';
       li.title = 'Click to view board at this move';
       li.onclick = () => {

@@ -6,6 +6,7 @@
 import { SENTE, GOTE } from './engine/constants.js';
 import { ShogiGame } from './engine/shogi.js';
 import { ShogiAI } from './engine/ai.js';
+import { GameAnalyzer, MOVE_QUALITIES } from './engine/analyzer.js';
 import { ShogiUI } from './ui.js';
 import { AudioManager } from './audio.js';
 import { TutorialAnimator } from './tutorialAnimator.js';
@@ -19,7 +20,10 @@ class ShogiApp {
     this.game = new ShogiGame();
     this.audio = new AudioManager();
     this.ai = new ShogiAI('tactician');
+    this.analyzer = new GameAnalyzer();
     this.accountManager = new AccountManager();
+    this.currentAnalysis = null;
+    this.currentGameId = null;
 
     this.mode = 'ai'; // 'ai', 'pvp', 'puzzle', 'tutorial'
     this.humanPlayer = SENTE; // In vs AI mode: player is SENTE or GOTE
@@ -173,6 +177,11 @@ class ShogiApp {
     if (heroSettingsBtn) {
       heroSettingsBtn.addEventListener('click', () => this.openSettingsModal());
     }
+
+    document.getElementById('history-open-btn')?.addEventListener('click', () => this.openHistoryModal());
+    document.getElementById('hero-history-btn')?.addEventListener('click', () => this.openHistoryModal());
+    document.getElementById('history-close-btn')?.addEventListener('click', () => this.closeHistoryModal());
+    document.getElementById('analyze-game-btn')?.addEventListener('click', () => this.runPostGameAnalysis());
 
     const landingAccountBtn = document.getElementById('landing-account-btn');
     if (landingAccountBtn) {
@@ -833,6 +842,7 @@ class ShogiApp {
     const lastM = this.game.moveHistory[clamped];
     this.ui.render(lastM);
     this.updateHistoryIndicator();
+    this.updateAnalysisCalloutForPly(clamped);
   }
 
   stepReplay(delta) {
@@ -1044,14 +1054,46 @@ class ShogiApp {
   }
 
   handleGameOver() {
-    if (this.mode !== 'ai' || !this.accountManager.isLoggedIn()) return;
-
     let outcome = null;
     if (this.game.status === 'checkmate' || this.game.status === 'resigned') {
       outcome = this.game.winner === this.humanPlayer ? 1.0 : 0.0;
     } else if (this.game.status === 'repetition_draw' || this.game.status === 'stalemate') {
       outcome = 0.5;
     }
+
+    // Save finished game to History Archive
+    if (this.game.moveHistory.length > 0 && (this.mode === 'ai' || this.mode === 'pvp')) {
+      const resultLabel = outcome === 1.0 ? 'win' : (outcome === 0.0 ? 'loss' : 'draw');
+      const opponentName = this.mode === 'ai'
+        ? (this.randomOpponentInfo ? this.randomOpponentInfo.name : `${t('aiOpponent')} (${this.ai.difficulty})`)
+        : 'Pass & Play (Player 2)';
+
+      this.currentGameId = this.currentGameId || ('g_' + Date.now());
+      this.accountManager.saveGameRecord({
+        id: this.currentGameId,
+        date: new Date().toISOString(),
+        mode: this.mode,
+        opponentName,
+        playerSide: this.humanPlayer,
+        result: resultLabel,
+        status: this.game.status,
+        totalMoves: this.game.moveHistory.length,
+        moves: this.game.moveHistory.map(m => ({
+          from: m.from,
+          to: m.to,
+          promote: Boolean(m.promote),
+          isDrop: Boolean(m.isDrop),
+          pieceType: m.pieceType
+        }))
+      });
+    }
+
+    // Auto-run post-game move analysis when a match ends
+    if (this.game.moveHistory.length > 0 && (this.mode === 'ai' || this.mode === 'pvp')) {
+      this.runPostGameAnalysis();
+    }
+
+    if (this.mode !== 'ai' || !this.accountManager.isLoggedIn()) return;
 
     if (outcome !== null) {
       const result = this.accountManager.updateGameResult(outcome, this.getAiRating());
@@ -1062,10 +1104,153 @@ class ShogiApp {
         const toast = document.createElement('div');
         toast.className = 'status-alert alert-winner';
         toast.style.marginTop = '10px';
-        toast.innerHTML = `⭐ <strong>Rating Update:</strong> ${deltaStr} (New Rating: <strong>${result.newRating}</strong> · ${result.rank.titleJa})`;
+        toast.innerHTML = `⭐ <strong>Rating Update:</strong> ${deltaStr} (New Rating: <strong>${result.newRating}</strong> · ${this.getLocalizedRankTitle(result.rank)})`;
         document.getElementById('game-status-banner')?.appendChild(toast);
       }
     }
+  }
+
+  runPostGameAnalysis() {
+    if (!this.game || this.game.moveHistory.length === 0) return;
+    const analysis = this.analyzer.analyzeGame(this.game.moveHistory);
+    this.currentAnalysis = analysis;
+    this.ui.moveAnalysis = analysis.moves;
+
+    if (this.currentGameId) {
+      this.accountManager.updateGameAnalysis(this.currentGameId, analysis.summary);
+    }
+
+    this.renderAnalysisSummary(analysis);
+    const lastMove = this.game.moveHistory[this.game.moveHistory.length - 1] || null;
+    this.ui.render(lastMove);
+  }
+
+  renderAnalysisSummary(analysis) {
+    const card = document.getElementById('analysis-summary-card');
+    const accRow = document.getElementById('analysis-accuracy-row');
+    const countsGrid = document.getElementById('analysis-counts-grid');
+    if (!card || !accRow || !countsGrid) return;
+
+    card.classList.remove('hidden');
+    const s = analysis.summary;
+
+    accRow.innerHTML = `
+      <div class="acc-box">
+        <div class="acc-side">☗ Sente ${t('accuracyLabel')}</div>
+        <div class="acc-val">${s.senteAccuracy}%</div>
+      </div>
+      <div class="acc-box">
+        <div class="acc-side">☖ Gote ${t('accuracyLabel')}</div>
+        <div class="acc-val">${s.goteAccuracy}%</div>
+      </div>
+    `;
+
+    const c = (this.humanPlayer === GOTE && this.mode === 'ai') ? s.goteCounts : s.senteCounts;
+    const keys = [
+      { key: 'brilliant', lbl: t('qualityBrilliant') },
+      { key: 'great', lbl: t('qualityGreat') },
+      { key: 'medium', lbl: t('qualityMedium') },
+      { key: 'bad', lbl: t('qualityBad') },
+      { key: 'terrible', lbl: t('qualityTerrible') }
+    ];
+
+    countsGrid.innerHTML = keys.map(k => {
+      const q = MOVE_QUALITIES[k.key];
+      return `
+        <div class="analysis-count-pill">
+          <span class="pill-sym move-badge ${k.key}" style="margin:0;">${q.symbol}</span>
+          <span class="pill-num">${c[k.key]}</span>
+          <span class="pill-lbl">${k.lbl}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  updateAnalysisCalloutForPly(ply) {
+    const callout = document.getElementById('analysis-move-callout');
+    if (!callout || !this.currentAnalysis || !this.currentAnalysis.moves[ply]) {
+      callout?.classList.add('hidden');
+      return;
+    }
+    const info = this.currentAnalysis.moves[ply];
+    const lang = getLanguage();
+    const qMeta = MOVE_QUALITIES[info.quality];
+    const qLabel = qMeta[`label_${lang}`] || qMeta.label_en;
+    callout.classList.remove('hidden');
+    callout.innerHTML = `
+      <strong>#${ply + 1}</strong> · <span class="move-badge ${info.quality}" style="margin:0 4px 0 0;">${info.symbol}</span>
+      <strong>${qLabel}</strong>
+      ${info.bestMoveNotation && info.cpLoss > 25 ? ` · Best: <code>${info.bestMoveNotation}</code>` : ''}
+    `;
+  }
+
+  openHistoryModal() {
+    const modal = document.getElementById('history-modal');
+    const container = document.getElementById('history-list-container');
+    if (!modal || !container) return;
+
+    const games = this.accountManager.getGameHistory();
+    if (games.length === 0) {
+      container.innerHTML = `<p class="text-muted" style="text-align:center;padding:24px;">${t('historyEmpty')}</p>`;
+    } else {
+      container.innerHTML = games.map((g, idx) => {
+        const dt = new Date(g.date).toLocaleString();
+        const accText = g.analysisSummary ? ` · ${t('accuracyLabel')}: ${g.analysisSummary.senteAccuracy}%` : '';
+        return `
+          <div class="history-game-row">
+            <div class="history-game-meta">
+              <div class="history-game-title">
+                <span class="history-result-pill ${g.result}">${g.result}</span>
+                <span>vs ${g.opponentName}</span>
+              </div>
+              <div class="history-game-sub">${dt} · ${g.totalMoves} moves${accText}</div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm replay-history-btn" data-idx="${idx}">
+              ${t('btnReplayAnalyze')}
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.replay-history-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const g = games[parseInt(btn.dataset.idx, 10)];
+          if (g) this.loadHistoryGameForReview(g);
+        });
+      });
+    }
+
+    modal.classList.add('visible');
+  }
+
+  closeHistoryModal() {
+    document.getElementById('history-modal')?.classList.remove('visible');
+  }
+
+  loadHistoryGameForReview(record) {
+    this.closeHistoryModal();
+    this.mode = record.mode || 'pvp';
+    this.humanPlayer = record.playerSide ?? SENTE;
+    this.showGameView();
+
+    this.game.reset();
+    (record.moves || []).forEach(m => {
+      this.game.makeMove({
+        from: m.from,
+        to: m.to,
+        promote: m.promote,
+        isDrop: m.isDrop,
+        pieceType: m.pieceType
+      });
+    });
+
+    this.currentGameId = record.id;
+    this.replayPlyIndex = null;
+    this.ui.viewingGame = null;
+    this.ui.activePly = null;
+    this.ui.clearSelection();
+    this.runPostGameAnalysis();
+    this.goToReplayPly(0);
   }
 
   // --- Switch Modes ---
@@ -1123,6 +1308,11 @@ class ShogiApp {
 
   startNewGame() {
     this.game.reset();
+    this.currentAnalysis = null;
+    this.currentGameId = 'g_' + Date.now();
+    this.ui.moveAnalysis = null;
+    document.getElementById('analysis-summary-card')?.classList.add('hidden');
+    document.getElementById('analysis-move-callout')?.classList.add('hidden');
     this.isAiThinking = false;
     this.stopTimer();
     this.resumeLiveGame();
